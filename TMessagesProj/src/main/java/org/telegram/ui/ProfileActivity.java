@@ -4904,9 +4904,9 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         AndroidUtilities.updateViewVisibilityAnimated(avatarContainer2, true, 1f, false);
         frameLayout.addView(avatarContainer2, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT, Gravity.START, 0, 0, 0, 0));
 
-        avatarContainer2.addView(avatarContainer, LayoutHelper.createFrame(42, 42, Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 0, 0, 0));
+        avatarContainer2.addView(avatarContainer, LayoutHelper.createFrame(avatarDefaultScale, avatarDefaultScale, Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 0, 0, 0));
 
-        avatarContainer.setPivotX(AndroidUtilities.dp(21));
+        avatarContainer.setPivotX(AndroidUtilities.dp(avatarDefaultScale / 2));
         avatarContainer.setPivotY(0);
 
         avatarImage = new AvatarImageView(context) {
