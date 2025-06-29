@@ -483,7 +483,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
     private float listViewVelocityY;
     private ValueAnimator expandAnimator;
     private float currentExpandAnimatorValue;
-    private float currentExpanAnimatorFracture;
+    private float currentExpandAnimatorFracture;
     private float[] expandAnimatorValues = new float[]{0f, 1f};
     private boolean isInLandscapeMode;
     private boolean allowPullingDown;
@@ -2943,7 +2943,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                             otherItem.hideSubItem(logout);
                         }
                     }
-                    currentExpanAnimatorFracture = 1.0f;
+                    currentExpandAnimatorFracture = 1.0f;
 
                     int paddingTop;
                     int paddingBottom;
@@ -5667,7 +5667,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
 
     private void setAvatarExpandProgress(float animatedFracture) {
         final int newTop = ActionBar.getCurrentActionBarHeight() + (actionBar.getOccupyStatusBar() ? AndroidUtilities.statusBarHeight : 0);
-        final float value = currentExpandAnimatorValue = AndroidUtilities.lerp(expandAnimatorValues, currentExpanAnimatorFracture = animatedFracture);
+        final float value = currentExpandAnimatorValue = AndroidUtilities.lerp(expandAnimatorValues, currentExpandAnimatorFracture = animatedFracture);
         checkPhotoDescriptionAlpha();
         avatarContainer.setScaleX(avatarScale);
         avatarContainer.setScaleY(avatarScale);
@@ -7374,7 +7374,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                         avatarsViewPager.setCreateThumbFromParent(true);
                         avatarsViewPager.getAdapter().notifyDataSetChanged();
                         expandAnimator.cancel();
-                        float value = AndroidUtilities.lerp(expandAnimatorValues, currentExpanAnimatorFracture);
+                        float value = AndroidUtilities.lerp(expandAnimatorValues, currentExpandAnimatorFracture);
                         expandAnimatorValues[0] = value;
                         expandAnimatorValues[1] = 1f;
                         if (storyView != null && !storyView.isEmpty()) {
@@ -7444,7 +7444,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                         avatarImage.getImageReceiver().setAllowStartAnimation(true);
                         avatarImage.getImageReceiver().startAnimation();
 
-                        float value = AndroidUtilities.lerp(expandAnimatorValues, currentExpanAnimatorFracture);
+                        float value = AndroidUtilities.lerp(expandAnimatorValues, currentExpandAnimatorFracture);
                         expandAnimatorValues[0] = value;
                         expandAnimatorValues[1] = 0f;
                         expandAnimator.setInterpolator(CubicBezierInterpolator.EASE_BOTH);
@@ -14608,7 +14608,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
     public void updateCollectibleHint() {
         if (collectibleHint == null) return;
         collectibleHint.setJointPx(0, -collectibleHint.getPaddingLeft() + nameTextView[1].getX() + (nameTextView[1].getRightDrawableX() - nameTextView[1].getRightDrawableWidth() * lerp(0.45f, 0.25f, currentExpandAnimatorValue)) * nameTextView[1].getScaleX());
-        final float expanded = AndroidUtilities.lerp(expandAnimatorValues, currentExpanAnimatorFracture);
+        final float expanded = AndroidUtilities.lerp(expandAnimatorValues, currentExpandAnimatorFracture);
         collectibleHint.setTranslationY(-collectibleHint.getPaddingBottom() + nameTextView[1].getY() - dp(24) + lerp(dp(6), -dp(12), expanded));
         collectibleHint.setBgColor(ColorUtils.blendARGB(collectibleHintBackgroundColor, 0x50000000, expanded));
         final boolean visible = extraHeight >= dp(82);
