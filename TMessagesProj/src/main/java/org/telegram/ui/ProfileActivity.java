@@ -3710,7 +3710,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                         if (view != null) {
                             if (isPulledDown) {
                                 final int actionBarHeight = ActionBar.getCurrentActionBarHeight() + (actionBar.getOccupyStatusBar() ? AndroidUtilities.statusBarHeight : 0);
-                                listView.smoothScrollBy(0, view.getTop() - listView.getMeasuredWidth() + actionBarHeight, CubicBezierInterpolator.EASE_OUT_QUINT);
+                                listView.smoothScrollBy(0, view.getTop() - listView.getMeasuredWidth(), CubicBezierInterpolator.EASE_OUT_QUINT);
                             } else {
                                 listView.smoothScrollBy(0, view.getTop() - extraHeightThreshold, CubicBezierInterpolator.EASE_OUT_QUINT);
                             }
@@ -5772,9 +5772,10 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         avatarImage.setForegroundAlpha(value);
 
         final FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) avatarContainer.getLayoutParams();
-        params.width = (int) AndroidUtilities.lerp(AndroidUtilities.dpf2(42f), listView.getMeasuredWidth() / avatarScale, value);
-        params.height = (int) AndroidUtilities.lerp(AndroidUtilities.dpf2(42f), (extraHeight + newTop) / avatarScale, value);
-//        params.leftMargin = (int) AndroidUtilities.lerp(AndroidUtilities.dpf2(64f), 0f, value);
+        params.leftMargin = (int) AndroidUtilities.lerp(0f, (-listView.getMeasuredWidth() / 2f + params.width / 2f) / avatarScale, value);
+        params.width = (int) AndroidUtilities.lerp(AndroidUtilities.dpf2(avatarDefaultScale), listView.getMeasuredWidth() / avatarScale, value);
+        params.height = (int) AndroidUtilities.lerp(AndroidUtilities.dpf2(avatarDefaultScale), (extraHeight + newTop) / avatarScale, value);
+
         avatarContainer.requestLayout();
 
         updateCollectibleHint();
@@ -7333,12 +7334,14 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 }
             }
 
-            avatarY = (actionBar.getOccupyStatusBar() ? AndroidUtilities.statusBarHeight : 0) + ActionBar.getCurrentActionBarHeight() / 2.0f * (1.0f + diff) - 21 * AndroidUtilities.density + 27 * AndroidUtilities.density * diff + actionBar.getTranslationY();
+//            avatarY = (actionBar.getOccupyStatusBar() ? AndroidUtilities.statusBarHeight : 0) + ActionBar.getCurrentActionBarHeight() / 2.0f * (1.0f + diff) - 21 * AndroidUtilities.density + 27 * AndroidUtilities.density * diff + actionBar.getTranslationY();
+            avatarY = (actionBar.getOccupyStatusBar() ? AndroidUtilities.statusBarHeight : 0) + actionBar.getTranslationY() + AndroidUtilities.dp(10);
 
             float h = openAnimationInProgress ? initialAnimationExtraHeight : extraHeight;
             if (h > extraHeightThreshold || isPulledDown) {
                 expandProgress = Math.max(0f, Math.min(1f, (h - extraHeightThreshold) / (listView.getMeasuredWidth() - newTop - extraHeightThreshold + AndroidUtilities.dp(100))));
-                avatarScale = AndroidUtilities.lerp((42f + 18f) / 42f, (42f + 42f + 18f) / 42f, Math.min(1f, expandProgress * 3f));
+                System.out.println(expandProgress);
+                avatarScale = AndroidUtilities.lerp((avatarDefaultScale + 18f) / avatarDefaultScale, (avatarDefaultScale * 1.15f + 18f) / avatarDefaultScale, Math.min(1f, expandProgress * 2f));
                 if (storyView != null) {
                     storyView.invalidate();
                 }
@@ -7554,7 +7557,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
 
                 updateCollectibleHint();
             } else if (extraHeight <= extraHeightThreshold) {
-                avatarScale = (42 + 18 * diff) / 42.0f;
+                avatarScale = (avatarDefaultScale + 7 * diff) / avatarDefaultScale;
                 if (storyView != null) {
                     storyView.invalidate();
                 }
