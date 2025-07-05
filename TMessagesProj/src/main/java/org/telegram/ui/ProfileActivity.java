@@ -770,7 +770,6 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
     };
     private boolean fragmentOpened;
     private NestedFrameLayout contentView;
-    private float titleAnimationsYDiff;
     private float customAvatarProgress;
     private float customPhotoOffset;
     private boolean hasFallbackPhoto;
@@ -3059,7 +3058,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
 
                 if (searchItem != null && qrItem != null) {
                     float translation = AndroidUtilities.dp(48) * currentExpandAnimatorValue;
-                   // qrItem.setTranslationX(translation);
+                    qrItem.setTranslationX(translation);
                 }
             }
 
@@ -5740,14 +5739,14 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         final float nameTextViewYEnd = newTop + extraHeight - AndroidUtilities.dpf2(38f) - nameTextViews[1].getBottom();
         final float nameTextViewCx = k + nameX + (nameTextViewXEnd - nameX) / 2f;
         final float nameTextViewCy = k + nameY + (nameTextViewYEnd - nameY) / 2f;
-        final float nameTextViewX = (1 - value) * (1 - value) * nameX + 2 * (1 - value) * value * nameTextViewCx + value * value * nameTextViewXEnd;
+        final float nameTextViewX = (1 - value) * (1 - value) * nameX + value * value * nameTextViewXEnd;
         final float nameTextViewY = (1 - value) * (1 - value) * nameY + 2 * (1 - value) * value * nameTextViewCy + value * value * nameTextViewYEnd;
 
         final float onlineTextViewXEnd = AndroidUtilities.dpf2(16f) - onlineTextViews[1].getLeft();
         final float onlineTextViewYEnd = newTop + extraHeight - AndroidUtilities.dpf2(18f) - onlineTextViews[1].getBottom();
         final float onlineTextViewCx = k + onlineX + (onlineTextViewXEnd - onlineX) / 2f;
         final float onlineTextViewCy = k + onlineY + (onlineTextViewYEnd - onlineY) / 2f;
-        final float onlineTextViewX = (1 - value) * (1 - value) * onlineX + 2 * (1 - value) * value * onlineTextViewCx + value * value * onlineTextViewXEnd;
+        final float onlineTextViewX = (1 - value) * (1 - value) * onlineX + value * value * onlineTextViewXEnd;
         final float onlineTextViewY = (1 - value) * (1 - value) * onlineY + 2 * (1 - value) * value * onlineTextViewCy + value * value * onlineTextViewYEnd;
 
         nameTextViews[1].setTranslationX(0);
@@ -7270,88 +7269,89 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
 
             listView.setOverScrollMode(extraHeight > extraHeightThreshold && extraHeight < listView.getMeasuredWidth() - newTop ? View.OVER_SCROLL_NEVER : View.OVER_SCROLL_ALWAYS);
 
-            if (writeButton != null) {
-                writeButton.setTranslationY(statusBarHeight + ActionBar.getCurrentActionBarHeight() + extraHeight + searchTransitionOffset - AndroidUtilities.dp(29.5f));
+//            if (writeButton != null) {
+//                writeButton.setTranslationY(actionBarHeight + ActionBar.getCurrentActionBarHeight() + extraHeight + searchTransitionOffset - AndroidUtilities.dp(29.5f));
+//
+//                boolean writeButtonVisible = diff > 0.2f && !searchMode && (imageUpdater == null || setAvatarRow == -1);
+//                if (writeButtonVisible && chatId != 0) {
+//                    writeButtonVisible = ChatObject.isChannel(currentChat) && !currentChat.megagroup && chatInfo != null && chatInfo.linked_chat_id != 0 && infoHeaderRow != -1;
+//                }
+//                if (!openAnimationInProgress) {
+//                    boolean currentVisible = writeButton.getTag() == null;
+//                    if (writeButtonVisible != currentVisible) {
+//                        if (writeButtonVisible) {
+//                            writeButton.setTag(null);
+//                        } else {
+//                            writeButton.setTag(0);
+//                        }
+//                        if (writeButtonAnimation != null) {
+//                            AnimatorSet old = writeButtonAnimation;
+//                            writeButtonAnimation = null;
+//                            old.cancel();
+//                        }
+//                        if (animated) {
+//                            writeButtonAnimation = new AnimatorSet();
+//                            if (writeButtonVisible) {
+//                                writeButtonAnimation.setInterpolator(new DecelerateInterpolator());
+//                                writeButtonAnimation.playTogether(
+//                                        ObjectAnimator.ofFloat(writeButton, View.SCALE_X, 1.0f),
+//                                        ObjectAnimator.ofFloat(writeButton, View.SCALE_Y, 1.0f),
+//                                        ObjectAnimator.ofFloat(writeButton, View.ALPHA, 1.0f)
+//                                );
+//                            } else {
+//                                writeButtonAnimation.setInterpolator(new AccelerateInterpolator());
+//                                writeButtonAnimation.playTogether(
+//                                        ObjectAnimator.ofFloat(writeButton, View.SCALE_X, 0.2f),
+//                                        ObjectAnimator.ofFloat(writeButton, View.SCALE_Y, 0.2f),
+//                                        ObjectAnimator.ofFloat(writeButton, View.ALPHA, 0.0f)
+//                                );
+//                            }
+//                            writeButtonAnimation.setDuration(150);
+//                            writeButtonAnimation.addListener(new AnimatorListenerAdapter() {
+//                                @Override
+//                                public void onAnimationEnd(Animator animation) {
+//                                    if (writeButtonAnimation != null && writeButtonAnimation.equals(animation)) {
+//                                        writeButtonAnimation = null;
+//                                    }
+//                                }
+//                            });
+//                            writeButtonAnimation.start();
+//                        } else {
+//                            writeButton.setScaleX(writeButtonVisible ? 1.0f : 0.2f);
+//                            writeButton.setScaleY(writeButtonVisible ? 1.0f : 0.2f);
+//                            writeButton.setAlpha(writeButtonVisible ? 1.0f : 0.0f);
+//                        }
+//                    }
+//
+//                    if (qrItem != null) {
+//                        updateQrItemVisibility(animated);
+//                        if (!animated) {
+//                            float translation = AndroidUtilities.dp(48) * qrItem.getAlpha();
+//                            qrItem.setTranslationX(translation);
+//                            if (avatarsViewPagerIndicatorView != null) {
+//                                avatarsViewPagerIndicatorView.setTranslationX(translation - AndroidUtilities.dp(48));
+//                            }
+//                        }
+//                    }
+//                }
+//
+//                if (storyView != null) {
+//                    storyView.setExpandCoords(avatarContainer2.getMeasuredWidth() - AndroidUtilities.dp(40), writeButtonVisible, actionBarHeight + ActionBar.getCurrentActionBarHeight() + extraHeight + searchTransitionOffset);
+//                }
+//                if (giftsView != null) {
+//                    giftsView.setExpandCoords(avatarContainer2.getMeasuredWidth() - AndroidUtilities.dp(40), writeButtonVisible, actionBarHeight + ActionBar.getCurrentActionBarHeight() + extraHeight + searchTransitionOffset);
+//                }
+//            }
 
-                boolean writeButtonVisible = diff > 0.2f && !searchMode && (imageUpdater == null || setAvatarRow == -1);
-                if (writeButtonVisible && chatId != 0) {
-                    writeButtonVisible = ChatObject.isChannel(currentChat) && !currentChat.megagroup && chatInfo != null && chatInfo.linked_chat_id != 0 && infoHeaderRow != -1;
-                }
-                if (!openAnimationInProgress) {
-                    boolean currentVisible = writeButton.getTag() == null;
-                    if (writeButtonVisible != currentVisible) {
-                        if (writeButtonVisible) {
-                            writeButton.setTag(null);
-                        } else {
-                            writeButton.setTag(0);
-                        }
-                        if (writeButtonAnimation != null) {
-                            AnimatorSet old = writeButtonAnimation;
-                            writeButtonAnimation = null;
-                            old.cancel();
-                        }
-                        if (animated) {
-                            writeButtonAnimation = new AnimatorSet();
-                            if (writeButtonVisible) {
-                                writeButtonAnimation.setInterpolator(new DecelerateInterpolator());
-                                writeButtonAnimation.playTogether(
-                                        ObjectAnimator.ofFloat(writeButton, View.SCALE_X, 1.0f),
-                                        ObjectAnimator.ofFloat(writeButton, View.SCALE_Y, 1.0f),
-                                        ObjectAnimator.ofFloat(writeButton, View.ALPHA, 1.0f)
-                                );
-                            } else {
-                                writeButtonAnimation.setInterpolator(new AccelerateInterpolator());
-                                writeButtonAnimation.playTogether(
-                                        ObjectAnimator.ofFloat(writeButton, View.SCALE_X, 0.2f),
-                                        ObjectAnimator.ofFloat(writeButton, View.SCALE_Y, 0.2f),
-                                        ObjectAnimator.ofFloat(writeButton, View.ALPHA, 0.0f)
-                                );
-                            }
-                            writeButtonAnimation.setDuration(150);
-                            writeButtonAnimation.addListener(new AnimatorListenerAdapter() {
-                                @Override
-                                public void onAnimationEnd(Animator animation) {
-                                    if (writeButtonAnimation != null && writeButtonAnimation.equals(animation)) {
-                                        writeButtonAnimation = null;
-                                    }
-                                }
-                            });
-                            writeButtonAnimation.start();
-                        } else {
-                            writeButton.setScaleX(writeButtonVisible ? 1.0f : 0.2f);
-                            writeButton.setScaleY(writeButtonVisible ? 1.0f : 0.2f);
-                            writeButton.setAlpha(writeButtonVisible ? 1.0f : 0.0f);
-                        }
-                    }
+//            avatarY = actionBarHeight + ActionBar.getCurrentActionBarHeight() / 2.0f * (1.0f + diff) - 21 * AndroidUtilities.density + 27 * AndroidUtilities.density * diff + actionBar.getTranslationY();
 
-                    if (qrItem != null) {
-                        updateQrItemVisibility(animated);
-                        if (!animated) {
-                            float translation = AndroidUtilities.dp(48) * qrItem.getAlpha();
-                            qrItem.setTranslationX(translation);
-                            if (avatarsViewPagerIndicatorView != null) {
-                                avatarsViewPagerIndicatorView.setTranslationX(translation - AndroidUtilities.dp(48));
-                            }
-                        }
-                    }
-                }
 
-                if (storyView != null) {
-                    storyView.setExpandCoords(avatarContainer2.getMeasuredWidth() - AndroidUtilities.dp(40), writeButtonVisible, statusBarHeight + ActionBar.getCurrentActionBarHeight() + extraHeight + searchTransitionOffset);
-                }
-                if (giftsView != null) {
-                    giftsView.setExpandCoords(avatarContainer2.getMeasuredWidth() - AndroidUtilities.dp(40), writeButtonVisible, statusBarHeight + ActionBar.getCurrentActionBarHeight() + extraHeight + searchTransitionOffset);
-                }
-            }
 
-//            avatarY = statusBarHeight + ActionBar.getCurrentActionBarHeight() / 2.0f * (1.0f + diff) - 21 * AndroidUtilities.density + 27 * AndroidUtilities.density * diff + actionBar.getTranslationY();
-            avatarY = statusBarHeight + actionBar.getTranslationY() + AndroidUtilities.dp(10);
 
             float h = openAnimationInProgress ? initialAnimationExtraHeight : extraHeight;
             if (h > extraHeightThreshold || isPulledDown) {
                 expandProgress = Math.max(0f, Math.min(1f, (h - extraHeightThreshold) / (listView.getMeasuredWidth() - newTop - extraHeightThreshold + AndroidUtilities.dp(100))));
-                System.out.println(expandProgress);
-                avatarScale = AndroidUtilities.lerp((avatarDefaultScale + 18f) / avatarDefaultScale, (avatarDefaultScale * 1.15f + 18f) / avatarDefaultScale, Math.min(1f, expandProgress * 2f));
+
                 if (storyView != null) {
                     storyView.invalidate();
                 }
@@ -7710,11 +7710,12 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         }
     }
 
+    //This is happening from extra height threshold to before avatar expansion
     private void refreshNameAndOnlineXY() {
-        nameX = AndroidUtilities.dp(-21f) + avatarContainer.getMeasuredWidth() * (avatarScale - (42f + 18f) / 42f);
-        nameY = (float) Math.floor(avatarY) + AndroidUtilities.dp(1.3f) + AndroidUtilities.dp(7f) + avatarContainer.getMeasuredHeight() * (avatarScale - (42f + 18f) / 42f) / 2f;
-        onlineX = AndroidUtilities.dp(-21f) + avatarContainer.getMeasuredWidth() * (avatarScale - (42f + 18f) / 42f);
-        onlineY = (float) Math.floor(avatarY) + AndroidUtilities.dp(24) + (float) Math.floor(11 * AndroidUtilities.density) + avatarContainer.getMeasuredHeight() * (avatarScale - (42f + 18f) / 42f) / 2f;
+        nameX = (listView.getMeasuredWidth()) / 2f - nameTextViews[1].getLeft();
+        nameY = avatarY + AndroidUtilities.dp(avatarDefaultScale) * avatarScale + AndroidUtilities.dp(16);
+        onlineX = (listView.getMeasuredWidth()) / 2f - onlineTextViews[1].getLeft();
+        onlineY = nameY + AndroidUtilities.dp(12);
     }
 
     public RecyclerListView getListView() {
@@ -7731,7 +7732,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         }
 
         int viewWidth = AndroidUtilities.isTablet() ? AndroidUtilities.dp(490) : AndroidUtilities.displaySize.x;
-        ActionBarMenuItem item = avatarsViewPagerIndicatorView.getSecondaryMenuItem();
+
         int extra = 0;
         if (editItemVisible) {
             extra += 48;
@@ -8631,9 +8632,9 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
 
             if (isOpen) {
                 if (playProfileAnimation != 2) {
-                    int width = (int) Math.ceil(AndroidUtilities.displaySize.x - AndroidUtilities.dp(118 + 8) + 21 * AndroidUtilities.density);
-                    float width2 = nameTextView[1].getPaint().measureText(nameTextView[1].getText().toString()) * 1.12f + nameTextView[1].getSideDrawablesSize();
-                    FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) nameTextView[1].getLayoutParams();
+                    FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) nameTextViews[1].getLayoutParams();
+                    int width = (int) Math.ceil(AndroidUtilities.displaySize.x - AndroidUtilities.dp(layoutParams.leftMargin + 8) + 21 * AndroidUtilities.density);
+                    float width2 = nameTextViews[1].getPaint().measureText(nameTextViews[1].getText().toString()) * 1.12f + nameTextViews[1].getSideDrawablesSize();
                     if (width < width2) {
                         layoutParams.width = (int) Math.ceil(width / 1.12f);
                     } else {
@@ -8690,16 +8691,16 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                         transitionOnlineText = avatarContainer.getSubtitleTextView();
                         avatarContainer2.invalidate();
                         onlineTextCrosafade = true;
-                        onlineTextView[0].setAlpha(0f);
-                        onlineTextView[1].setAlpha(0f);
-                        animators.add(ObjectAnimator.ofFloat(onlineTextView[1], View.ALPHA, finish));
+                        onlineTextViews[0].setAlpha(0f);
+                        onlineTextViews[1].setAlpha(0f);
+                        animators.add(ObjectAnimator.ofFloat(onlineTextViews[1], View.ALPHA, finish));
                     }
                 }
 
                 if (!onlineTextCrosafade) {
                     for (int a = 0; a < 2; a++) {
-                        onlineTextView[a].setAlpha(a == 0 ? finish : start);
-                        animators.add(ObjectAnimator.ofFloat(onlineTextView[a], View.ALPHA, a == 0 ? start : finish));
+                        onlineTextViews[a].setAlpha(a == 0 ? finish : start);
+                        animators.add(ObjectAnimator.ofFloat(onlineTextViews[a], View.ALPHA, a == 0 ? start : finish));
                     }
                 }
 
@@ -8707,7 +8708,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 initialAnimationExtraHeight = extraHeight;
 
                 for (int a = 0; a < 2; a++) {
-                    animators.add(ObjectAnimator.ofFloat(nameTextView[a], View.ALPHA, a == 0 ? start : finish));
+                    animators.add(ObjectAnimator.ofFloat(nameTextViews[a], View.ALPHA, a == 0 ? start : finish));
                 }
                 if (storyView != null) {
                     if (dialogId > 0) {
@@ -13642,7 +13643,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     expandAnimatorValues[0] = 1f;
                     expandAnimatorValues[1] = 0f;
                     setAvatarExpandProgress(1f);
-                    extraHeight = AndroidUtilities.dp(88);
+                    extraHeight = extraHeightThreshold;
                 } else {
                     final int actionBarHeight = getActionBarHeight();
                     int ws = View.MeasureSpec.makeMeasureSpec(listView.getMeasuredWidth(), View.MeasureSpec.EXACTLY);
