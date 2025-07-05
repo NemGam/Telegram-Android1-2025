@@ -326,10 +326,10 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
     private LinearLayoutManager layoutManager;
     private ListAdapter listAdapter;
     private SearchAdapter searchAdapter;
-    private SimpleTextView[] nameTextView = new SimpleTextView[2];
+    private SimpleTextView[] nameTextViews = new SimpleTextView[2];
     private String nameTextViewRightDrawableContentDescription = null;
     private String nameTextViewRightDrawable2ContentDescription = null;
-    private SimpleTextView[] onlineTextView = new SimpleTextView[4];
+    private SimpleTextView[] onlineTextViews = new SimpleTextView[4];
     private AudioPlayerAlert.ClippingTextViewSwitcher mediaCounterTextView;
     private RLottieImageView writeButton;
     private AnimatorSet writeButtonAnimation;
@@ -488,6 +488,8 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
     private boolean isInLandscapeMode;
     private boolean allowPullingDown;
     private boolean isPulledDown;
+
+
 
     private Paint whitePaint = new Paint();
 
@@ -2870,9 +2872,9 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     }
                 }
 
-                if (previousTransitionFragment != null) {
-                    nameTextView[0].setRightPadding(nameTextView[0].getMeasuredWidth() - previousTransitionFragment.getAvatarContainer().getTitleTextView().getMeasuredWidth());
-                }
+//                if (previousTransitionFragment != null) {
+//                    nameTextViews[0].setRightPadding(nameTextViews[0].getMeasuredWidth() - previousTransitionFragment.getAvatarContainer().getTitleTextView().getMeasuredWidth());
+//                }
 
                 if (!fragmentOpened && (expandPhoto || openAnimationInProgress && playProfileAnimation == 2)) {
                     ignoreLayout = true;
@@ -2883,10 +2885,9 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                             searchItem.setEnabled(false);
                             searchItem.setVisibility(GONE);
                         }
-                        nameTextView[1].setTextColor(Color.WHITE);
-                        nameTextView[1].setPivotY(nameTextView[1].getMeasuredHeight());
-                        nameTextView[1].setScaleX(1.67f);
-                        nameTextView[1].setScaleY(1.67f);
+                        nameTextViews[1].setPivotY(nameTextViews[1].getMeasuredHeight());
+                        nameTextViews[1].setScaleX(1.67f);
+                        nameTextViews[1].setScaleY(1.67f);
                         if (scamDrawable != null) {
                             scamDrawable.setColor(Color.argb(179, 255, 255, 255));
                         }
@@ -2906,7 +2907,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                             premiumCrossfadeDrawable[1].setProgress(1f);
                         }
                         updateEmojiStatusDrawableColor(1f);
-                        onlineTextView[1].setTextColor(0xB3FFFFFF);
+                        onlineTextViews[1].setTextColor(0xB3FFFFFF);
                         actionBar.setItemsBackgroundColor(Theme.ACTION_BAR_WHITE_SELECTOR_COLOR, false);
                         actionBar.setItemsColor(Color.WHITE, false);
                         overlaysView.setOverlaysVisible();
@@ -4716,7 +4717,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 super.dispatchDraw(canvas);
                 if (transitionOnlineText != null) {
                     canvas.save();
-                    canvas.translate(onlineTextView[0].getX(), onlineTextView[0].getY());
+                    canvas.translate(onlineTextViews[0].getX(), onlineTextViews[0].getY());
                     canvas.saveLayerAlpha(0, 0, transitionOnlineText.getMeasuredWidth(), transitionOnlineText.getMeasuredHeight(), (int) (255 * (1f - avatarAnimationProgress)), Canvas.ALL_SAVE_FLAG);
                     transitionOnlineText.draw(canvas);
                     canvas.restore();
@@ -4724,9 +4725,9 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     invalidate();
                 }
                 if (hasFallbackPhoto && photoDescriptionProgress != 0 && customAvatarProgress != 1f) {
-                    float cy =  onlineTextView[1].getY() + onlineTextView[1].getMeasuredHeight() / 2f;
+                    float cy =  onlineTextViews[1].getY() + onlineTextViews[1].getMeasuredHeight() / 2f;
                     float size = AndroidUtilities.dp(22);
-                    float x = AndroidUtilities.dp(28) - customPhotoOffset + onlineTextView[1].getX() - size;
+                    float x = AndroidUtilities.dp(28) - customPhotoOffset + onlineTextViews[1].getX() - size;
 
                     fallbackImage.setImageCoords(x, cy - size / 2f, size, size);
                     fallbackImage.setAlpha(photoDescriptionProgress);
@@ -4745,7 +4746,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                                 }
                             });
                         }
-                        AndroidUtilities.rectTmp.set(x - AndroidUtilities.dp(4), cy - AndroidUtilities.dp(14), x + onlineTextView[2].getTextWidth() + AndroidUtilities.dp(28) * (1f - customAvatarProgress) + AndroidUtilities.dp(4), cy + AndroidUtilities.dp(14));
+                        AndroidUtilities.rectTmp.set(x - AndroidUtilities.dp(4), cy - AndroidUtilities.dp(14), x + onlineTextViews[2].getTextWidth() + AndroidUtilities.dp(28) * (1f - customAvatarProgress) + AndroidUtilities.dp(4), cy + AndroidUtilities.dp(14));
                         canvasButton.setRect(AndroidUtilities.rectTmp);
                         canvasButton.setRounded(true);
                         canvasButton.setColor(Color.TRANSPARENT, ColorUtils.setAlphaComponent(Color.WHITE, 50));
@@ -4960,11 +4961,11 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             }
         }
 
-        for (int a = 0; a < nameTextView.length; a++) {
+        for (int a = 0; a < nameTextViews.length; a++) {
             if (playProfileAnimation == 0 && a == 0) {
                 continue;
             }
-            nameTextView[a] = new SimpleTextView(context) {
+            nameTextViews[a] = new SimpleTextView(context) {
                 @Override
                 public void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo info) {
                     super.onInitializeAccessibilityNodeInfo(info);
@@ -4991,30 +4992,30 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 }
             };
             if (a == 1) {
-                nameTextView[a].setTextColor(getThemedColor(Theme.key_profile_title));
+//                nameTextViews[a].setTextColor(getThemedColor(Theme.key_profile_title));
             } else {
-                nameTextView[a].setTextColor(getThemedColor(Theme.key_actionBarDefaultTitle));
+//                nameTextViews[a].setTextColor(getThemedColor(Theme.key_actionBarDefaultTitle));
             }
-            nameTextView[a].setPadding(0, AndroidUtilities.dp(6), 0, AndroidUtilities.dp(a == 0 ? 12 : 4));
-            nameTextView[a].setTextSize(18);
-            nameTextView[a].setGravity(Gravity.LEFT);
-            nameTextView[a].setTypeface(AndroidUtilities.bold());
-            nameTextView[a].setLeftDrawableTopPadding(-AndroidUtilities.dp(1.3f));
-            nameTextView[a].setPivotX(0);
-            nameTextView[a].setPivotY(0);
-            nameTextView[a].setAlpha(a == 0 ? 0.0f : 1.0f);
+            nameTextViews[a].setPadding(0, AndroidUtilities.dp(6), 0, AndroidUtilities.dp(a == 0 ? 12 : 4));
+            nameTextViews[a].setTextSize(18);
+            nameTextViews[a].setGravity(Gravity.LEFT);
+            nameTextViews[a].setTypeface(AndroidUtilities.bold());
+            nameTextViews[a].setLeftDrawableTopPadding(-AndroidUtilities.dp(1.3f));
+            nameTextViews[a].setPivotX(0);
+            nameTextViews[a].setPivotY(0);
+            nameTextViews[a].setAlpha(a == 0 ? 0.0f : 1.0f);
             if (a == 1) {
-                nameTextView[a].setScrollNonFitText(true);
-                nameTextView[a].setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_NO);
+                nameTextViews[a].setScrollNonFitText(true);
+                nameTextViews[a].setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_NO);
             }
-            nameTextView[a].setFocusable(a == 0);
-            nameTextView[a].setEllipsizeByGradient(true);
-            nameTextView[a].setRightDrawableOutside(a == 0);
-            avatarContainer2.addView(nameTextView[a], LayoutHelper.createFrame(a == 0 ? initialTitleWidth : LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.LEFT | Gravity.TOP, 118, -6, (a == 0 ? rightMargin - (hasTitleExpanded ? 10 : 0) : 0), 0));
+            nameTextViews[a].setFocusable(a == 0);
+            nameTextViews[a].setEllipsizeByGradient(true);
+            nameTextViews[a].setRightDrawableOutside(a == 0);
+            avatarContainer2.addView(nameTextViews[a], LayoutHelper.createFrame(a == 0 ? initialTitleWidth : LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.LEFT | Gravity.TOP, 60, -6, (a == 0 ? rightMargin - (hasTitleExpanded ? 10 : 0) : 0), 0));
         }
-        for (int a = 0; a < onlineTextView.length; a++) {
+        for (int a = 0; a < onlineTextViews.length; a++) {
             if (a == 1) {
-                onlineTextView[a] = new LinkSpanDrawable.ClickableSmallTextView(context) {
+                onlineTextViews[a] = new LinkSpanDrawable.ClickableSmallTextView(context) {
 
                     @Override
                     public void setAlpha(float alpha) {
@@ -5025,46 +5026,48 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     @Override
                     public void setTranslationY(float translationY) {
                         super.setTranslationY(translationY);
-                        onlineTextView[2].setTranslationY(translationY);
-                        onlineTextView[3].setTranslationY(translationY);
+                        onlineTextViews[2].setTranslationY(translationY);
+                        onlineTextViews[3].setTranslationY(translationY);
                     }
 
                     @Override
                     public void setTranslationX(float translationX) {
                         super.setTranslationX(translationX);
-                        onlineTextView[2].setTranslationX(translationX);
-                        onlineTextView[3].setTranslationX(translationX);
+                        onlineTextViews[2].setTranslationX(translationX);
+                        onlineTextViews[3].setTranslationX(translationX);
                     }
 
                     @Override
                     public void setTextColor(int color) {
                         super.setTextColor(color);
-                        if (onlineTextView[2] != null) {
-                            onlineTextView[2].setTextColor(color);
-                            onlineTextView[3].setTextColor(color);
-                        }
+//                        if (onlineTextViews[2] != null) {
+//                            onlineTextViews[2].setTextColor(color);
+//                            onlineTextViews[3].setTextColor(color);
+//                        }
                         if (showStatusButton != null) {
                             showStatusButton.setTextColor(Theme.multAlpha(Theme.adaptHSV(color, -.02f, +.15f), 1.4f));
                         }
                     }
                 };
             } else {
-                onlineTextView[a] = new LinkSpanDrawable.ClickableSmallTextView(context);
+                onlineTextViews[a] = new LinkSpanDrawable.ClickableSmallTextView(context);
             }
 
-            onlineTextView[a].setEllipsizeByGradient(true);
-            onlineTextView[a].setTextColor(applyPeerColor(getThemedColor(Theme.key_avatar_subtitleInProfileBlue), true, null));
-            onlineTextView[a].setTextSize(14);
-            onlineTextView[a].setGravity(Gravity.LEFT);
-            onlineTextView[a].setAlpha(a == 0 ? 0.0f : 1.0f);
+            onlineTextViews[a].setEllipsizeByGradient(true);
+            onlineTextViews[a].setTextColor(applyPeerColor(getThemedColor(Theme.key_avatar_subtitleInProfileBlue), true, null));
+            onlineTextViews[a].setTextSize(14);
+            onlineTextViews[a].setGravity(Gravity.LEFT);
+            onlineTextViews[a].setPivotX(0);
+            onlineTextViews[a].setPivotY(0);
+            onlineTextViews[a].setAlpha(a == 0 ? 0.0f : 1.0f);
             if (a == 1 || a == 2 || a == 3) {
-                onlineTextView[a].setPadding(AndroidUtilities.dp(4), AndroidUtilities.dp(2), AndroidUtilities.dp(4), AndroidUtilities.dp(2));
+//                onlineTextViews[a].setPadding(AndroidUtilities.dp(4), AndroidUtilities.dp(2), AndroidUtilities.dp(4), AndroidUtilities.dp(2));
             }
             if (a > 0) {
-                onlineTextView[a].setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_NO);
+                onlineTextViews[a].setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_NO);
             }
-            onlineTextView[a].setFocusable(a == 0);
-            avatarContainer2.addView(onlineTextView[a], LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.LEFT | Gravity.TOP, 118 - (a == 1 || a == 2 || a == 3? 4 : 0), (a == 1 || a == 2 || a == 3 ? -2 : 0), (a == 0 ? rightMargin - (hasTitleExpanded ? 10 : 0) : 8) - (a == 1 || a == 2 || a == 3 ? 4 : 0), 0));
+            onlineTextViews[a].setFocusable(a == 0);
+            avatarContainer2.addView(onlineTextViews[a], LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.LEFT | Gravity.TOP, 60 - (a == 2 || a == 3? 4 : 0), (a == 1 || a == 2 || a == 3 ? -2 : 0), (a == 0 ? rightMargin - (hasTitleExpanded ? 10 : 0) : 8) - (a == 1 || a == 2 || a == 3 ? 4 : 0), 0));
         }
 
         checkPhotoDescriptionAlpha();
@@ -5732,29 +5735,28 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
 
         updateEmojiStatusDrawableColor(value);
 
-        final float k = AndroidUtilities.dpf2(8f);
-
-        final float nameTextViewXEnd = AndroidUtilities.dpf2(18f) - nameTextView[1].getLeft();
-        final float nameTextViewYEnd = newTop + extraHeight - AndroidUtilities.dpf2(38f) - nameTextView[1].getBottom();
+        final float k = AndroidUtilities.dpf2(2f);
+        final float nameTextViewXEnd = AndroidUtilities.dpf2(18f) - nameTextViews[1].getLeft();
+        final float nameTextViewYEnd = newTop + extraHeight - AndroidUtilities.dpf2(38f) - nameTextViews[1].getBottom();
         final float nameTextViewCx = k + nameX + (nameTextViewXEnd - nameX) / 2f;
         final float nameTextViewCy = k + nameY + (nameTextViewYEnd - nameY) / 2f;
         final float nameTextViewX = (1 - value) * (1 - value) * nameX + 2 * (1 - value) * value * nameTextViewCx + value * value * nameTextViewXEnd;
         final float nameTextViewY = (1 - value) * (1 - value) * nameY + 2 * (1 - value) * value * nameTextViewCy + value * value * nameTextViewYEnd;
 
-        final float onlineTextViewXEnd = AndroidUtilities.dpf2(16f) - onlineTextView[1].getLeft();
-        final float onlineTextViewYEnd = newTop + extraHeight - AndroidUtilities.dpf2(18f) - onlineTextView[1].getBottom();
+        final float onlineTextViewXEnd = AndroidUtilities.dpf2(16f) - onlineTextViews[1].getLeft();
+        final float onlineTextViewYEnd = newTop + extraHeight - AndroidUtilities.dpf2(18f) - onlineTextViews[1].getBottom();
         final float onlineTextViewCx = k + onlineX + (onlineTextViewXEnd - onlineX) / 2f;
         final float onlineTextViewCy = k + onlineY + (onlineTextViewYEnd - onlineY) / 2f;
         final float onlineTextViewX = (1 - value) * (1 - value) * onlineX + 2 * (1 - value) * value * onlineTextViewCx + value * value * onlineTextViewXEnd;
         final float onlineTextViewY = (1 - value) * (1 - value) * onlineY + 2 * (1 - value) * value * onlineTextViewCy + value * value * onlineTextViewYEnd;
 
-        nameTextView[1].setTranslationX(nameTextViewX);
-        nameTextView[1].setTranslationY(nameTextViewY);
-        onlineTextView[1].setTranslationX(onlineTextViewX + customPhotoOffset);
-        onlineTextView[1].setTranslationY(onlineTextViewY);
+        nameTextViews[1].setTranslationX(0);
+        nameTextViews[1].setTranslationY(nameTextViewY);
+        onlineTextViews[1].setTranslationX(0);
+        onlineTextViews[1].setTranslationY(onlineTextViewY);
         mediaCounterTextView.setTranslationX(onlineTextViewX);
         mediaCounterTextView.setTranslationY(onlineTextViewY);
-        final Object onlineTextViewTag = onlineTextView[1].getTag();
+        final Object onlineTextViewTag = onlineTextViews[1].getTag();
         int statusColor;
         boolean online = false;
         if (onlineTextViewTag instanceof Integer) {
@@ -5763,11 +5765,11 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         } else {
             statusColor = getThemedColor(Theme.key_avatar_subtitleInProfileBlue);
         }
-        onlineTextView[1].setTextColor(ColorUtils.blendARGB(applyPeerColor(statusColor, true, online), 0xB3FFFFFF, value));
+        onlineTextViews[1].setTextColor(ColorUtils.blendARGB(applyPeerColor(statusColor, true, online), 0xB3FFFFFF, value));
         if (extraHeight > extraHeightThreshold) {
-            nameTextView[1].setPivotY(AndroidUtilities.lerp(0, nameTextView[1].getMeasuredHeight(), value));
-            nameTextView[1].setScaleX(AndroidUtilities.lerp(1.12f, 1.67f, value));
-            nameTextView[1].setScaleY(AndroidUtilities.lerp(1.12f, 1.67f, value));
+//            nameTextViews[1].setPivotY(AndroidUtilities.lerp(0, nameTextViews[1].getMeasuredHeight(), value));
+            nameTextViews[1].setScaleX(AndroidUtilities.lerp(1.12f, 1.67f, value));
+            nameTextViews[1].setScaleY(AndroidUtilities.lerp(1.12f, 1.67f, value));
         }
         if (showStatusButton != null) {
             showStatusButton.setBackgroundColor(ColorUtils.blendARGB(Theme.multAlpha(Theme.adaptHSV(actionBarBackgroundColor, +0.18f, -0.1f), 0.5f), 0x23ffffff, currentExpandAnimatorValue));
@@ -5775,7 +5777,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
 
         needLayoutText(Math.min(1f, extraHeight / extraHeightThreshold));
 
-        nameTextView[1].setTextColor(ColorUtils.blendARGB(peerColor != null ? Color.WHITE : getThemedColor(Theme.key_profile_title), Color.WHITE, currentExpandAnimatorValue));
+//        nameTextViews[1].setTextColor(ColorUtils.blendARGB(peerColor != null ? Color.WHITE : getThemedColor(Theme.key_profile_title), Color.WHITE, currentExpandAnimatorValue));
         actionBar.setItemsColor(ColorUtils.blendARGB(peerColor != null ? Color.WHITE : getThemedColor(Theme.key_actionBarDefaultIcon), Color.WHITE, value), false);
         actionBar.setMenuOffsetSuppressed(true);
 
@@ -5826,16 +5828,16 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
     }
 
     public void getEmojiStatusLocation(Rect rect) {
-        if (nameTextView[1] == null) {
+        if (nameTextViews[1] == null) {
             return;
         }
-        if (nameTextView[1].getRightDrawable() == null) {
-            rect.set(nameTextView[1].getWidth() - 1, nameTextView[1].getHeight() / 2 - 1, nameTextView[1].getWidth() + 1, nameTextView[1].getHeight() / 2 + 1);
+        if (nameTextViews[1].getRightDrawable() == null) {
+            rect.set(nameTextViews[1].getWidth() - 1, nameTextViews[1].getHeight() / 2 - 1, nameTextViews[1].getWidth() + 1, nameTextViews[1].getHeight() / 2 + 1);
             return;
         }
-        rect.set(nameTextView[1].getRightDrawable().getBounds());
-        rect.offset((int) (rect.centerX() * (nameTextView[1].getScaleX() - 1f)), 0);
-        rect.offset((int) nameTextView[1].getX(), (int) nameTextView[1].getY());
+        rect.set(nameTextViews[1].getRightDrawable().getBounds());
+        rect.offset((int) (rect.centerX() * (nameTextViews[1].getScaleX() - 1f)), 0);
+        rect.offset((int) nameTextViews[1].getX(), (int) nameTextViews[1].getY());
     }
 
     public void goToForum() {
@@ -5883,7 +5885,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         final SelectAnimatedEmojiDialog.SelectAnimatedEmojiDialogWindow[] popup = new SelectAnimatedEmojiDialog.SelectAnimatedEmojiDialogWindow[1];
         int xoff, yoff;
         getEmojiStatusLocation(AndroidUtilities.rectTmp2);
-        int topMarginDp = nameTextView[1].getScaleX() < 1.5f ? 16 : 32;
+        int topMarginDp = nameTextViews[1].getScaleX() < 1.5f ? 16 : 32;
         yoff = -(avatarContainer2.getHeight() - AndroidUtilities.rectTmp2.centerY()) - AndroidUtilities.dp(topMarginDp);
         int popupWidth = (int) Math.min(AndroidUtilities.dp(340 - 16), AndroidUtilities.displaySize.x * .95f);
         int ecenter = AndroidUtilities.rectTmp2.centerX();
@@ -5974,7 +5976,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             popupLayout.setSelected(emojiStatusDrawable[1] != null && emojiStatusDrawable[1].getDrawable() instanceof AnimatedEmojiDrawable ? ((AnimatedEmojiDrawable) emojiStatusDrawable[1].getDrawable()).getDocumentId() : null);
         }
         popupLayout.setSaveState(3);
-        popupLayout.setScrimDrawable(emojiStatusDrawable[1], nameTextView[1]);
+        popupLayout.setScrimDrawable(emojiStatusDrawable[1], nameTextViews[1]);
         popup[0] = selectAnimatedEmojiDialog = new SelectAnimatedEmojiDialog.SelectAnimatedEmojiDialogWindow(popupLayout, LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT) {
             @Override
             public void dismiss() {
@@ -5983,8 +5985,8 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             }
         };
         int[] loc = new int[2];
-        if (nameTextView[1] != null) {
-            nameTextView[1].getLocationOnScreen(loc);
+        if (nameTextViews[1] != null) {
+            nameTextViews[1].getLocationOnScreen(loc);
         }
         popup[0].showAsDropDown(fragmentView, xoff, yoff, Gravity.TOP | Gravity.LEFT);
         popup[0].dimBehind();
@@ -6861,7 +6863,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             int color1 = getThemedColor(Theme.key_profile_title);
             int color2 = getThemedColor(Theme.key_player_actionBarTitle);
             int c = AndroidUtilities.getOffsetColor(color1, color2, value, 1.0f);
-            nameTextView[1].setTextColor(c);
+//            nameTextViews[1].setTextColor(c);
             if (lockIconDrawable != null) {
                 lockIconDrawable.setColorFilter(c, PorterDuff.Mode.MULTIPLY);
             }
@@ -6998,8 +7000,8 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         animators.add(ObjectAnimator.ofFloat(sharedMediaLayout.photoVideoOptionsItem, View.ALPHA, visible ? 1.0f : 0.0f));
         animators.add(ObjectAnimator.ofFloat(sharedMediaLayout.photoVideoOptionsItem, View.TRANSLATION_Y, visible ? 0.0f : AndroidUtilities.dp(10)));
         animators.add(ObjectAnimator.ofFloat(actionBar, ACTIONBAR_HEADER_PROGRESS, visible ? 1.0f : 0.0f));
-        animators.add(ObjectAnimator.ofFloat(onlineTextView[1], View.ALPHA, visible ? 0.0f : 1.0f));
-        if (myProfile) animators.add(ObjectAnimator.ofFloat(onlineTextView[3], View.ALPHA, visible ? 0.0f : 1.0f));
+        animators.add(ObjectAnimator.ofFloat(onlineTextViews[1], View.ALPHA, visible ? 0.0f : 1.0f));
+        if (myProfile) animators.add(ObjectAnimator.ofFloat(onlineTextViews[3], View.ALPHA, visible ? 0.0f : 1.0f));
         animators.add(ObjectAnimator.ofFloat(mediaCounterTextView, View.ALPHA, visible ? 1.0f : 0.0f));
         if (visible) {
             animators.add(ObjectAnimator.ofFloat(this, HEADER_SHADOW, 0.0f));
@@ -7227,7 +7229,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         } else if (id == SharedMediaLayout.TAB_COMMON_GROUPS) {
             mediaCounterTextView.setText(LocaleController.formatPluralString("CommonGroups", userInfo.common_chats_count));
         } else if (id == SharedMediaLayout.TAB_GROUPUSERS) {
-            mediaCounterTextView.setText(onlineTextView[1].getText());
+            mediaCounterTextView.setText(onlineTextViews[1].getText());
         } else if (id == SharedMediaLayout.TAB_STORIES) {
             if (isBot) {
                 mediaCounterTextView.setText(sharedMediaLayout.getBotPreviewsSubtitle(false));
@@ -7422,13 +7424,15 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                         if (openAnimationInProgress && playProfileAnimation == 2) {
                             additionalTranslationY = -(1.0f - avatarAnimationProgress) * AndroidUtilities.dp(50);
                         }
-                        onlineX = AndroidUtilities.dpf2(16f) - onlineTextView[1].getLeft();
-                        nameTextView[1].setTranslationX(AndroidUtilities.dpf2(18f) - nameTextView[1].getLeft());
-                        nameTextView[1].setTranslationY(newTop + h - AndroidUtilities.dpf2(38f) - nameTextView[1].getBottom() + additionalTranslationY);
-                        onlineTextView[1].setTranslationX(onlineX + customPhotoOffset);
-                        onlineTextView[1].setTranslationY(newTop + h - AndroidUtilities.dpf2(18f) - onlineTextView[1].getBottom() + additionalTranslationY);
-                        mediaCounterTextView.setTranslationX(onlineTextView[1].getTranslationX());
-                        mediaCounterTextView.setTranslationY(onlineTextView[1].getTranslationY());
+//                        onlineX = AndroidUtilities.dpf2(16f) - onlineTextViews[1].getLeft();
+//                        onlineX = 0;
+                        nameTextViews[1].setTranslationX(AndroidUtilities.dpf2(18f) - nameTextViews[1].getLeft());
+
+                        nameTextViews[1].setTranslationY(newTop + h - AndroidUtilities.dpf2(38f) - nameTextViews[1].getBottom() + additionalTranslationY);
+//                        onlineTextViews[1].setTranslationX(onlineX + customPhotoOffset);
+                        onlineTextViews[1].setTranslationY(newTop + h - AndroidUtilities.dpf2(18f) - onlineTextViews[1].getBottom() + additionalTranslationY);
+                        mediaCounterTextView.setTranslationX(onlineTextViews[1].getTranslationX());
+                        mediaCounterTextView.setTranslationY(onlineTextViews[1].getTranslationY());
                         updateCollectibleHint();
                     }
                 } else {
@@ -7484,15 +7488,16 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                         expandAnimator.start();
                     }
 
+                    avatarScale = AndroidUtilities.lerp(1f, 1.15f, Math.min(1f, expandProgress * 3f));
                     avatarContainer.setScaleX(avatarScale);
                     avatarContainer.setScaleY(avatarScale);
 
                     if (expandAnimator == null || !expandAnimator.isRunning()) {
                         refreshNameAndOnlineXY();
-                        nameTextView[1].setTranslationX(nameX);
-                        nameTextView[1].setTranslationY(nameY);
-                        onlineTextView[1].setTranslationX(onlineX + customPhotoOffset);
-                        onlineTextView[1].setTranslationY(onlineY);
+                        nameTextViews[1].setTranslationX(0);
+                        nameTextViews[1].setTranslationY(nameY);
+                        onlineTextViews[1].setTranslationX(0);
+                        onlineTextViews[1].setTranslationY(onlineY);
                         mediaCounterTextView.setTranslationX(onlineX);
                         mediaCounterTextView.setTranslationY(onlineY);
                         updateCollectibleHint();
@@ -7500,23 +7505,21 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 }
             }
 
+
             if (openAnimationInProgress && playProfileAnimation == 2) {
 //                float avX = 0;
-                float avY = statusBarHeight + ActionBar.getCurrentActionBarHeight() / 2.0f - 21 * AndroidUtilities.density + actionBar.getTranslationY();
+                float avY = actionBarHeight + ActionBar.getCurrentActionBarHeight() / 2.0f - 21 * AndroidUtilities.density + actionBar.getTranslationY();
 
-                nameTextView[0].setTranslationX(0);
-                nameTextView[0].setTranslationY((float) Math.floor(avY) + AndroidUtilities.dp(1.3f));
-                onlineTextView[0].setTranslationX(0);
-                onlineTextView[0].setTranslationY((float) Math.floor(avY) + AndroidUtilities.dp(24));
-                nameTextView[0].setScaleX(1.0f);
-                nameTextView[0].setScaleY(1.0f);
+                nameTextViews[0].setTranslationX(0);
+                nameTextViews[0].setTranslationY((float) Math.floor(avY) + AndroidUtilities.dp(1.3f));
+                onlineTextViews[0].setTranslationX(0);
+                onlineTextViews[0].setTranslationY((float) Math.floor(avY) + AndroidUtilities.dp(24));
+                nameTextViews[0].setScaleX(1.0f);
+                nameTextViews[0].setScaleY(1.0f);
 
-                nameTextView[1].setPivotY(nameTextView[1].getMeasuredHeight());
-                nameTextView[1].setScaleX(1.67f);
-                nameTextView[1].setScaleY(1.67f);
-
-                avatarScale = AndroidUtilities.lerp(1.0f, (avatarDefaultScale * 2 + 18f) / avatarDefaultScale, avatarAnimationProgress);
-
+                nameTextViews[1].setPivotY(nameTextViews[1].getMeasuredHeight());
+                nameTextViews[1].setScaleX(1.67f);
+                nameTextViews[1].setScaleY(1.67f);
 
 
                 if (storyView != null) {
@@ -7529,6 +7532,8 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 avatarImage.setRoundRadius((int) AndroidUtilities.lerp(getSmallAvatarRoundRadius(), 0f, avatarAnimationProgress));
 //                avatarContainer.setTranslationX(AndroidUtilities.lerp(avX, 0, avatarAnimationProgress));
                 avatarContainer.setTranslationY(AndroidUtilities.lerp((float) Math.ceil(avY), 0f, avatarAnimationProgress));
+
+                float avatarScale = AndroidUtilities.lerp(1.0f, (avatarDefaultScale * 2 + 18f) / avatarDefaultScale, avatarAnimationProgress);
                 float extra = (avatarContainer.getMeasuredWidth() - AndroidUtilities.dp(avatarDefaultScale)) * avatarScale;
                 timeItem.setTranslationX(avatarContainer.getX() + AndroidUtilities.dp(16) + extra);
                 timeItem.setTranslationY(avatarContainer.getY() + AndroidUtilities.dp(15) + extra);
@@ -7536,6 +7541,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 starBgItem.setTranslationY(avatarContainer.getY() + AndroidUtilities.dp(24) + extra);
                 starFgItem.setTranslationX(avatarContainer.getX() + AndroidUtilities.dp(28) + extra);
                 starFgItem.setTranslationY(avatarContainer.getY() + AndroidUtilities.dp(24) + extra);
+
                 avatarContainer.setScaleX(avatarScale);
                 avatarContainer.setScaleY(avatarScale);
 
@@ -7550,11 +7556,11 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 }
                 if (verifiedCrossfadeDrawable[1] != null) {
                     verifiedCrossfadeDrawable[1].setProgress(avatarAnimationProgress);
-                    nameTextView[1].invalidate();
+                    nameTextViews[1].invalidate();
                 }
                 if (premiumCrossfadeDrawable[1] != null) {
                     premiumCrossfadeDrawable[1].setProgress(avatarAnimationProgress);
-                    nameTextView[1].invalidate();
+                    nameTextViews[1].invalidate();
                 }
                 updateEmojiStatusDrawableColor(avatarAnimationProgress);
 
@@ -7593,8 +7599,8 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 if (showStatusButton != null) {
                     showStatusButton.setAlpha((int) (0xFF * diff));
                 }
-                for (int a = 0; a < nameTextView.length; a++) {
-                    if (nameTextView[a] == null) {
+                for (int a = 0; a < nameTextViews.length; a++) {
+                    if (nameTextViews[a] == null) {
                         continue;
                     }
                     if (expandAnimator == null || !expandAnimator.isRunning()) {
@@ -7608,8 +7614,8 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                             mediaCounterTextView.setTranslationY(onlineY);
                         }
                     }
-                    nameTextView[a].setScaleX(nameScale);
-                    nameTextView[a].setScaleY(nameScale);
+                    nameTextViews[a].setScaleX(nameScale);
+                    nameTextViews[a].setScaleY(nameScale);
                 }
                 updateCollectibleHint();
             }
@@ -7717,7 +7723,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
 
     private void needLayoutText(float diff) {
         FrameLayout.LayoutParams layoutParams;
-        float scale = nameTextView[1].getScaleX();
+        float scale = nameTextViews[1].getScaleX();
         float maxScale = extraHeight > extraHeightThreshold ? 1.67f : 1.12f;
 
         if (extraHeight > extraHeightThreshold && scale != maxScale) {
@@ -7751,9 +7757,9 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         } else {
             layoutParams.width = (int) Math.ceil(width2);
         }
-        layoutParams.width = (int) Math.min((viewWidth - nameTextView[1].getX()) / scale - AndroidUtilities.dp(8), layoutParams.width);
+        layoutParams.width = (int) Math.min((viewWidth - nameTextViews[1].getX()) / scale - AndroidUtilities.dp(8), layoutParams.width);
         if (layoutParams.width != prevWidth) {
-            nameTextView[1].requestLayout();
+            nameTextViews[1].requestLayout();
         }
 
         width2 = onlineTextView[1].getPaint().measureText(onlineTextView[1].getText().toString()) + onlineTextView[1].getRightDrawableWidth();
@@ -7766,6 +7772,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         } else {
             layoutParams2.width = layoutParams.width = LayoutHelper.WRAP_CONTENT;
         }
+
         if (prevWidth != layoutParams.width) {
             onlineTextView[2].getLayoutParams().width = layoutParams.width;
             onlineTextView[2].requestLayout();
@@ -8260,8 +8267,8 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
 
         updateProfileData(true);
         fixLayout();
-        if (nameTextView[1] != null) {
-            setParentActivityTitle(nameTextView[1].getText());
+        if (nameTextViews[1] != null) {
+            setParentActivityTitle(nameTextViews[1].getText());
         }
         if (userId != 0) {
             final TLRPC.User user = getMessagesController().getUser(userId);
@@ -8469,19 +8476,19 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         color = getThemedColor(Theme.key_profile_title);
         int titleColor = getThemedColor(Theme.key_actionBarDefaultTitle);
         for (int i = 0; i < 2; i++) {
-            if (nameTextView[i] == null || i == 1 && playProfileAnimation == 2) {
+            if (nameTextViews[i] == null || i == 1 && playProfileAnimation == 2) {
                 continue;
             }
-            nameTextView[i].setTextColor(ColorUtils.blendARGB(titleColor, color, progress));
+            nameTextViews[i].setTextColor(ColorUtils.blendARGB(titleColor, color, progress));
         }
 
         color = isOnline[0] ? getThemedColor(Theme.key_profile_status) : AvatarDrawable.getProfileTextColorForId(userId != 0 || ChatObject.isChannel(chatId, currentAccount) && !currentChat.megagroup ? 5 : chatId, resourcesProvider);
         int subtitleColor = getThemedColor(isOnline[0] ? Theme.key_chat_status : Theme.key_actionBarDefaultSubtitle);
         for (int i = 0; i < 3; i++) {
-            if (onlineTextView[i] == null || i == 1 || i == 2 && playProfileAnimation == 2) {
+            if (onlineTextViews[i] == null || i == 1 || i == 2 && playProfileAnimation == 2) {
                 continue;
             }
-            onlineTextView[i].setTextColor(ColorUtils.blendARGB(i == 0 ? subtitleColor : applyPeerColor(subtitleColor, true, isOnline[0]), i == 0 ? color : applyPeerColor(color, true, isOnline[0]), progress));
+            onlineTextViews[i].setTextColor(ColorUtils.blendARGB(i == 0 ? subtitleColor : applyPeerColor(subtitleColor, true, isOnline[0]), i == 0 ? color : applyPeerColor(color, true, isOnline[0]), progress));
         }
         extraHeight = initialAnimationExtraHeight * progress;
         color = AvatarDrawable.getProfileColorForId(userId != 0 ? userId : chatId, resourcesProvider);
@@ -8632,13 +8639,13 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     } else {
                         layoutParams.width = LayoutHelper.WRAP_CONTENT;
                     }
-                    nameTextView[1].setLayoutParams(layoutParams);
+                    nameTextViews[1].setLayoutParams(layoutParams);
 
                     initialAnimationExtraHeight = extraHeightThreshold;
                 } else {
-                    FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) nameTextView[1].getLayoutParams();
+                    FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) nameTextViews[1].getLayoutParams();
                     layoutParams.width = (int) ((AndroidUtilities.displaySize.x - AndroidUtilities.dp(32)) / 1.67f);
-                    nameTextView[1].setLayoutParams(layoutParams);
+                    nameTextViews[1].setLayoutParams(layoutParams);
                 }
                 fragmentView.setBackgroundColor(0);
                 setAvatarAnimationProgress(0);
@@ -8646,8 +8653,8 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
 
                 if (playProfileAnimation == 2) {
                     avatarColor = getAverageColor(avatarImage.getImageReceiver());
-                    nameTextView[1].setTextColor(Color.WHITE);
-                    onlineTextView[1].setTextColor(0xB3FFFFFF);
+//                    nameTextViews[1].setTextColor(Color.WHITE);
+                    onlineTextViews[1].setTextColor(0xB3FFFFFF);
                     actionBar.setItemsBackgroundColor(Theme.ACTION_BAR_WHITE_SELECTOR_COLOR, false);
                     if (showStatusButton != null) {
                         showStatusButton.setBackgroundColor(0x23ffffff);
@@ -8655,8 +8662,8 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     overlaysView.setOverlaysVisible();
                 }
                 for (int a = 0; a < 2; a++) {
-                    nameTextView[a].setAlpha(a == 0 ? finish : start);
-                    animators.add(ObjectAnimator.ofFloat(nameTextView[a], View.ALPHA, a == 0 ? start : finish));
+                    nameTextViews[a].setAlpha(a == 0 ? finish : start);
+                    animators.add(ObjectAnimator.ofFloat(nameTextViews[a], View.ALPHA, a == 0 ? start : finish));
                 }
                 if (storyView != null) {
                     if (getDialogId() > 0) {
@@ -8723,13 +8730,13 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                         transitionOnlineText = avatarContainer.getSubtitleTextView();
                         avatarContainer2.invalidate();
                         crossfadeOnlineText = true;
-                        animators.add(ObjectAnimator.ofFloat(onlineTextView[0], View.ALPHA, 0.0f));
-                        animators.add(ObjectAnimator.ofFloat(onlineTextView[1], View.ALPHA, 0.0f));
+                        animators.add(ObjectAnimator.ofFloat(onlineTextViews[0], View.ALPHA, 0.0f));
+                        animators.add(ObjectAnimator.ofFloat(onlineTextViews[1], View.ALPHA, 0.0f));
                     }
                 }
                 if (!crossfadeOnlineText) {
                     for (int a = 0; a < 2; a++) {
-                        animators.add(ObjectAnimator.ofFloat(onlineTextView[a], View.ALPHA, a == 0 ? 1.0f : 0.0f));
+                        animators.add(ObjectAnimator.ofFloat(onlineTextViews[a], View.ALPHA, a == 0 ? 1.0f : 0.0f));
                     }
                 }
                 if (birthdayEffect != null) {
@@ -9525,7 +9532,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
     }
     private Drawable getBotVerificationDrawable(long icon, boolean animated, int a) {
         if (botVerificationDrawable[a] == null) {
-            botVerificationDrawable[a] = new AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable(nameTextView[a], AndroidUtilities.dp(17), a == 0 ? AnimatedEmojiDrawable.CACHE_TYPE_EMOJI_STATUS : AnimatedEmojiDrawable.CACHE_TYPE_KEYBOARD);
+            botVerificationDrawable[a] = new AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable(nameTextViews[a], AndroidUtilities.dp(17), a == 0 ? AnimatedEmojiDrawable.CACHE_TYPE_EMOJI_STATUS : AnimatedEmojiDrawable.CACHE_TYPE_KEYBOARD);
             botVerificationDrawable[a].offset(0, dp(1));
             if (fragmentViewAttached) {
                 botVerificationDrawable[a].attach();
@@ -9543,7 +9550,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
 
     private Drawable getEmojiStatusDrawable(TLRPC.EmojiStatus emojiStatus, boolean switchable, boolean animated, int a) {
         if (emojiStatusDrawable[a] == null) {
-            emojiStatusDrawable[a] = new AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable(nameTextView[a], AndroidUtilities.dp(24), a == 0 ? AnimatedEmojiDrawable.CACHE_TYPE_EMOJI_STATUS : AnimatedEmojiDrawable.CACHE_TYPE_KEYBOARD);
+            emojiStatusDrawable[a] = new AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable(nameTextViews[a], AndroidUtilities.dp(24), a == 0 ? AnimatedEmojiDrawable.CACHE_TYPE_EMOJI_STATUS : AnimatedEmojiDrawable.CACHE_TYPE_KEYBOARD);
             if (fragmentViewAttached) {
                 emojiStatusDrawable[a].attach();
             }
@@ -9607,18 +9614,18 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
     }
 
     private void updateEmojiStatusEffectPosition() {
-        animatedStatusView.setScaleX(nameTextView[1].getScaleX());
-        animatedStatusView.setScaleY(nameTextView[1].getScaleY());
+        animatedStatusView.setScaleX(nameTextViews[1].getScaleX());
+        animatedStatusView.setScaleY(nameTextViews[1].getScaleY());
         animatedStatusView.translate(
-            nameTextView[1].getX() + nameTextView[1].getRightDrawableX() * nameTextView[1].getScaleX(),
-            nameTextView[1].getY() + (nameTextView[1].getHeight() - (nameTextView[1].getHeight() - nameTextView[1].getRightDrawableY()) * nameTextView[1].getScaleY())
+            nameTextViews[1].getX() + nameTextViews[1].getRightDrawableX() * nameTextViews[1].getScaleX(),
+            nameTextViews[1].getY() + (nameTextViews[1].getHeight() - (nameTextViews[1].getHeight() - nameTextViews[1].getRightDrawableY()) * nameTextViews[1].getScaleY())
         );
     }
 
     private MessagesController.PeerColor peerColor;
 
     private void updateProfileData(boolean reload) {
-        if (avatarContainer == null || nameTextView == null || getParentActivity() == null) {
+        if (avatarContainer == null || nameTextViews == null || getParentActivity() == null) {
             return;
         }
         String onlineTextOverride;
@@ -9748,17 +9755,17 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 isOnline[0] = false;
                 newString2 = LocaleController.formatUserStatus(currentAccount, user, isOnline, shortStatus ? new boolean[1] : null);
                 hiddenStatusButton = user != null && !isOnline[0] && !getUserConfig().isPremium() && user.status != null && (user.status instanceof TLRPC.TL_userStatusRecently || user.status instanceof TLRPC.TL_userStatusLastMonth || user.status instanceof TLRPC.TL_userStatusLastWeek) && user.status.by_me;
-                if (onlineTextView[1] != null && !mediaHeaderVisible) {
+                if (onlineTextViews[1] != null && !mediaHeaderVisible) {
                     int key = isOnline[0] && peerColor == null ? Theme.key_profile_status : Theme.key_avatar_subtitleInProfileBlue;
-                    onlineTextView[1].setTag(key);
+                    onlineTextViews[1].setTag(key);
                     if (!isPulledDown) {
-                        onlineTextView[1].setTextColor(applyPeerColor(getThemedColor(key), true, isOnline[0]));
+                        onlineTextViews[1].setTextColor(applyPeerColor(getThemedColor(key), true, isOnline[0]));
                     }
                 }
             }
             hasCustomPhoto = user.photo != null && user.photo.personal;
             try {
-                newString = Emoji.replaceEmoji(newString, nameTextView[1].getPaint().getFontMetricsInt(), false);
+                newString = Emoji.replaceEmoji(newString, nameTextViews[1].getPaint().getFontMetricsInt(), false);
             } catch (Exception ignore) {
             }
             if (copyFromChatActivity) {
@@ -9767,112 +9774,112 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 avatarImage.setAnimateFromImageReceiver(fromAvatarImage.getImageReceiver());
             }
             for (int a = 0; a < 2; a++) {
-                if (nameTextView[a] == null) {
+                if (nameTextViews[a] == null) {
                     continue;
                 }
                 if (a == 0 && copyFromChatActivity) {
                     ChatActivity chatActivity = (ChatActivity) prevFragment;
                     SimpleTextView titleTextView = chatActivity.avatarContainer.getTitleTextView();
-                    nameTextView[a].setText(titleTextView.getText());
-                    nameTextView[a].setRightDrawable(titleTextView.getRightDrawable());
-                    nameTextView[a].setRightDrawable2(titleTextView.getRightDrawable2());
+                    nameTextViews[a].setText(titleTextView.getText());
+                    nameTextViews[a].setRightDrawable(titleTextView.getRightDrawable());
+                    nameTextViews[a].setRightDrawable2(titleTextView.getRightDrawable2());
                 } else if (a == 0 && user.id != getUserConfig().getClientUserId() && !MessagesController.isSupportUser(user) && user.phone != null && user.phone.length() != 0 && getContactsController().contactsDict.get(user.id) == null &&
                         (getContactsController().contactsDict.size() != 0 || !getContactsController().isLoadingContacts())) {
-                    nameTextView[a].setText(PhoneFormat.getInstance().format("+" + user.phone));
+                    nameTextViews[a].setText(PhoneFormat.getInstance().format("+" + user.phone));
                 } else {
-                    nameTextView[a].setText(newString);
+                    nameTextViews[a].setText(newString);
                 }
                 if (a == 0 && onlineTextOverride != null) {
-                    onlineTextView[a].setText(onlineTextOverride);
+                    onlineTextViews[a].setText(onlineTextOverride);
                 } else if (a == 0 && copyFromChatActivity) {
                     ChatActivity chatActivity = (ChatActivity) prevFragment;
                     if (chatActivity.avatarContainer.getSubtitleTextView() instanceof SimpleTextView) {
                         SimpleTextView textView = (SimpleTextView) chatActivity.avatarContainer.getSubtitleTextView();
-                        onlineTextView[a].setText(textView.getText());
+                        onlineTextViews[a].setText(textView.getText());
                     } else if (chatActivity.avatarContainer.getSubtitleTextView() instanceof AnimatedTextView) {
                         AnimatedTextView textView = (AnimatedTextView) chatActivity.avatarContainer.getSubtitleTextView();
-                        onlineTextView[a].setText(textView.getText());
+                        onlineTextViews[a].setText(textView.getText());
                     }
                 } else {
-                    onlineTextView[a].setText(newString2);
+                    onlineTextViews[a].setText(newString2);
                 }
-                onlineTextView[a].setDrawablePadding(dp(9));
-                onlineTextView[a].setRightDrawableInside(true);
-                onlineTextView[a].setRightDrawable(a == 1 && hiddenStatusButton ? getShowStatusButton() : null);
-                onlineTextView[a].setRightDrawableOnClick(a == 1 && hiddenStatusButton ? v -> {
+                onlineTextViews[a].setDrawablePadding(dp(9));
+                onlineTextViews[a].setRightDrawableInside(true);
+                onlineTextViews[a].setRightDrawable(a == 1 && hiddenStatusButton ? getShowStatusButton() : null);
+                onlineTextViews[a].setRightDrawableOnClick(a == 1 && hiddenStatusButton ? v -> {
                     MessagePrivateSeenView.showSheet(getContext(), currentAccount, getDialogId(), true, null, () -> {
                         getMessagesController().reloadUser(getDialogId());
                     }, resourcesProvider);
                 } : null);
                 Drawable leftIcon = currentEncryptedChat != null ? getLockIconDrawable() : null;
                 boolean rightIconIsPremium = false, rightIconIsStatus = false;
-                nameTextView[a].setRightDrawableOutside(a == 0);
+                nameTextViews[a].setRightDrawableOutside(a == 0);
                 if (a == 0 && !copyFromChatActivity) {
                     if (user.scam || user.fake) {
-                        nameTextView[a].setRightDrawable2(getScamDrawable(user.scam ? 0 : 1));
+                        nameTextViews[a].setRightDrawable2(getScamDrawable(user.scam ? 0 : 1));
                         nameTextViewRightDrawable2ContentDescription = LocaleController.getString(R.string.ScamMessage);
                     } else if (user.verified) {
-                        nameTextView[a].setRightDrawable2(getVerifiedCrossfadeDrawable(a));
+                        nameTextViews[a].setRightDrawable2(getVerifiedCrossfadeDrawable(a));
                         nameTextViewRightDrawable2ContentDescription = LocaleController.getString(R.string.AccDescrVerified);
                     } else if (getMessagesController().isDialogMuted(dialogId != 0 ? dialogId : userId, topicId)) {
-                        nameTextView[a].setRightDrawable2(getThemedDrawable(Theme.key_drawable_muteIconDrawable));
+                        nameTextViews[a].setRightDrawable2(getThemedDrawable(Theme.key_drawable_muteIconDrawable));
                         nameTextViewRightDrawable2ContentDescription = LocaleController.getString(R.string.NotificationsMuted);
                     } else {
-                        nameTextView[a].setRightDrawable2(null);
+                        nameTextViews[a].setRightDrawable2(null);
                         nameTextViewRightDrawable2ContentDescription = null;
                     }
                     if (user != null && !getMessagesController().premiumFeaturesBlocked() && !MessagesController.isSupportUser(user) && DialogObject.getEmojiStatusDocumentId(user.emoji_status) != 0) {
                         rightIconIsStatus = true;
                         rightIconIsPremium = false;
-                        nameTextView[a].setRightDrawable(getEmojiStatusDrawable(user.emoji_status, false, false, a));
+                        nameTextViews[a].setRightDrawable(getEmojiStatusDrawable(user.emoji_status, false, false, a));
                         nameTextViewRightDrawableContentDescription = LocaleController.getString(R.string.AccDescrPremium);
                     } else if (getMessagesController().isPremiumUser(user)) {
                         rightIconIsStatus = false;
                         rightIconIsPremium = true;
-                        nameTextView[a].setRightDrawable(getEmojiStatusDrawable(null, false, false, a));
+                        nameTextViews[a].setRightDrawable(getEmojiStatusDrawable(null, false, false, a));
                         nameTextViewRightDrawableContentDescription = LocaleController.getString( R.string.AccDescrPremium);
                     } else {
-                        nameTextView[a].setRightDrawable(null);
+                        nameTextViews[a].setRightDrawable(null);
                         nameTextViewRightDrawableContentDescription = null;
                     }
                 } else if (a == 1) {
                     if (user.scam || user.fake) {
-                        nameTextView[a].setRightDrawable2(getScamDrawable(user.scam ? 0 : 1));
+                        nameTextViews[a].setRightDrawable2(getScamDrawable(user.scam ? 0 : 1));
                     } else if (user.verified) {
-                        nameTextView[a].setRightDrawable2(getVerifiedCrossfadeDrawable(a));
+                        nameTextViews[a].setRightDrawable2(getVerifiedCrossfadeDrawable(a));
                     } else {
-                        nameTextView[a].setRightDrawable2(null);
+                        nameTextViews[a].setRightDrawable2(null);
                     }
                     if (!getMessagesController().premiumFeaturesBlocked() && user != null && !MessagesController.isSupportUser(user) && DialogObject.getEmojiStatusDocumentId(user.emoji_status) != 0) {
                         rightIconIsStatus = true;
                         rightIconIsPremium = false;
-                        nameTextView[a].setRightDrawable(getEmojiStatusDrawable(user.emoji_status, true, true, a));
+                        nameTextViews[a].setRightDrawable(getEmojiStatusDrawable(user.emoji_status, true, true, a));
                     } else if (getMessagesController().isPremiumUser(user)) {
                         rightIconIsStatus = false;
                         rightIconIsPremium = true;
-                        nameTextView[a].setRightDrawable(getEmojiStatusDrawable(null, true, true, a));
+                        nameTextViews[a].setRightDrawable(getEmojiStatusDrawable(null, true, true, a));
                     } else {
-                        nameTextView[a].setRightDrawable(null);
+                        nameTextViews[a].setRightDrawable(null);
                     }
                 }
                 if (leftIcon == null && currentEncryptedChat == null && user.bot_verification_icon != 0) {
-                    nameTextView[a].setLeftDrawableOutside(true);
+                    nameTextViews[a].setLeftDrawableOutside(true);
                     leftIcon = getBotVerificationDrawable(user.bot_verification_icon, false, a);
                 } else {
-                    nameTextView[a].setLeftDrawableOutside(false);
+                    nameTextViews[a].setLeftDrawableOutside(false);
                 }
-                nameTextView[a].setLeftDrawable(leftIcon);
+                nameTextViews[a].setLeftDrawable(leftIcon);
                 if (a == 1 && (rightIconIsStatus || rightIconIsPremium)) {
-                    nameTextView[a].setRightDrawableOutside(true);
+                    nameTextViews[a].setRightDrawableOutside(true);
                 }
                 if (user.self && getMessagesController().isPremiumUser(user)) {
-                    nameTextView[a].setRightDrawableOnClick(v -> {
+                    nameTextViews[a].setRightDrawableOnClick(v -> {
                         showStatusSelect();
                     });
                 }
                 if (!user.self && getMessagesController().isPremiumUser(user)) {
-                    final SimpleTextView textView = nameTextView[a];
-                    nameTextView[a].setRightDrawableOnClick(v -> {
+                    final SimpleTextView textView = nameTextViews[a];
+                    nameTextViews[a].setRightDrawableOnClick(v -> {
                         if (user.emoji_status instanceof TLRPC.TL_emojiStatusCollectible) {
                             TLRPC.TL_emojiStatusCollectible status = (TLRPC.TL_emojiStatusCollectible) user.emoji_status;
                             if (status != null) {
@@ -9931,8 +9938,8 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             }
 
             if (userId == UserConfig.getInstance(currentAccount).clientUserId) {
-                onlineTextView[2].setText(LocaleController.getString(R.string.FallbackTooltip));
-                onlineTextView[3].setText(LocaleController.getString(R.string.Online));
+                onlineTextViews[2].setText(LocaleController.getString(R.string.FallbackTooltip));
+                onlineTextViews[3].setText(LocaleController.getString(R.string.Online));
             } else {
                 if (user.photo != null && user.photo.personal && user.photo.has_video) {
                     SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(newString2);
@@ -9940,20 +9947,20 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     spannableStringBuilder.append(" d ");
                     spannableStringBuilder.append(LocaleController.getString(R.string.CustomAvatarTooltipVideo));
                     spannableStringBuilder.setSpan(new DotDividerSpan(), newString2.length() + 1, newString2.length() + 2, 0);
-                    onlineTextView[2].setText(spannableStringBuilder);
+                    onlineTextViews[2].setText(spannableStringBuilder);
                 } else {
                     SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(newString2);
                     spannableStringBuilder.setSpan(new EmptyStubSpan(), 0, newString2.length(), 0);
                     spannableStringBuilder.append(" d ");
                     spannableStringBuilder.append(LocaleController.getString(R.string.CustomAvatarTooltip));
                     spannableStringBuilder.setSpan(new DotDividerSpan(), newString2.length() + 1, newString2.length() + 2, 0);
-                    onlineTextView[2].setText(spannableStringBuilder);
+                    onlineTextViews[2].setText(spannableStringBuilder);
                 }
             }
 
-            onlineTextView[2].setVisibility(View.VISIBLE);
+            onlineTextViews[2].setVisibility(View.VISIBLE);
             if (!searchMode) {
-                onlineTextView[3].setVisibility(View.VISIBLE);
+                onlineTextViews[3].setVisibility(View.VISIBLE);
             }
 
             if (previousTransitionFragment != null) {
@@ -10079,66 +10086,66 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
 
             boolean changed = false;
             for (int a = 0; a < 2; a++) {
-                if (nameTextView[a] == null) {
+                if (nameTextViews[a] == null) {
                     continue;
                 }
                 if (a == 0 && copyFromChatActivity) {
                     ChatActivity chatActivity = (ChatActivity) prevFragment;
                     SimpleTextView titleTextView = chatActivity.avatarContainer.getTitleTextView();
-                    if (nameTextView[a].setText(titleTextView.getText())) {
+                    if (nameTextViews[a].setText(titleTextView.getText())) {
                         changed = true;
                     }
-                    if (nameTextView[a].setRightDrawable(titleTextView.getRightDrawable())) {
+                    if (nameTextViews[a].setRightDrawable(titleTextView.getRightDrawable())) {
                         changed = true;
                     }
-                    if (nameTextView[a].setRightDrawable2(titleTextView.getRightDrawable2())) {
+                    if (nameTextViews[a].setRightDrawable2(titleTextView.getRightDrawable2())) {
                         changed = true;
                     }
                 } else if (isTopic) {
                     CharSequence title = topic == null ? "" : topic.title;
                     try {
-                        title = Emoji.replaceEmoji(title, nameTextView[a].getPaint().getFontMetricsInt(), false);
+                        title = Emoji.replaceEmoji(title, nameTextViews[a].getPaint().getFontMetricsInt(), false);
                     } catch (Exception ignore) {
                     }
-                    if (nameTextView[a].setText(title)) {
+                    if (nameTextViews[a].setText(title)) {
                         changed = true;
                     }
                 } else if (ChatObject.isMonoForum(chat)) {
                     CharSequence title = getString(R.string.ChatMessageSuggestions);
-                    if (nameTextView[a].setText(title)) {
+                    if (nameTextViews[a].setText(title)) {
                         changed = true;
                     }
                 } else if (chat.title != null) {
                     CharSequence title = chat.title;
                     try {
-                        title = Emoji.replaceEmoji(title, nameTextView[a].getPaint().getFontMetricsInt(), false);
+                        title = Emoji.replaceEmoji(title, nameTextViews[a].getPaint().getFontMetricsInt(), false);
                     } catch (Exception ignore) {
                     }
-                    if (nameTextView[a].setText(title)) {
+                    if (nameTextViews[a].setText(title)) {
                         changed = true;
                     }
                 }
-                nameTextView[a].setLeftDrawableOutside(false);
-                nameTextView[a].setLeftDrawable(null);
-                nameTextView[a].setRightDrawableOutside(a == 0);
-                nameTextView[a].setRightDrawableOnClick(null);
+                nameTextViews[a].setLeftDrawableOutside(false);
+                nameTextViews[a].setLeftDrawable(null);
+                nameTextViews[a].setRightDrawableOutside(a == 0);
+                nameTextViews[a].setRightDrawableOnClick(null);
                 if (a != 0) {
                     if (chat.scam || chat.fake) {
-                        nameTextView[a].setRightDrawable2(getScamDrawable(chat.scam ? 0 : 1));
+                        nameTextViews[a].setRightDrawable2(getScamDrawable(chat.scam ? 0 : 1));
                         nameTextViewRightDrawableContentDescription = LocaleController.getString(R.string.ScamMessage);
                     } else if (chat.verified) {
-                        nameTextView[a].setRightDrawable2(getVerifiedCrossfadeDrawable(a));
+                        nameTextViews[a].setRightDrawable2(getVerifiedCrossfadeDrawable(a));
                         nameTextViewRightDrawableContentDescription = LocaleController.getString(R.string.AccDescrVerified);
                     } else {
-                        nameTextView[a].setRightDrawable2(null);
+                        nameTextViews[a].setRightDrawable2(null);
                         nameTextViewRightDrawableContentDescription = null;
                     }
                     if (DialogObject.getEmojiStatusDocumentId(chat.emoji_status) != 0) {
-                        nameTextView[a].setRightDrawable(getEmojiStatusDrawable(chat.emoji_status, true, false, a));
-                        nameTextView[a].setRightDrawableOutside(true);
+                        nameTextViews[a].setRightDrawable(getEmojiStatusDrawable(chat.emoji_status, true, false, a));
+                        nameTextViews[a].setRightDrawableOutside(true);
                         nameTextViewRightDrawableContentDescription = null;
                         if (ChatObject.canChangeChatInfo(chat)) {
-                            nameTextView[a].setRightDrawableOnClick(v -> {
+                            nameTextViews[a].setRightDrawableOnClick(v -> {
                                 showStatusSelect();
                             });
                             if (preloadedChannelEmojiStatuses) {
@@ -10147,39 +10154,39 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                             }
                         } else if (chat.emoji_status instanceof TLRPC.TL_emojiStatusCollectible) {
                             final String slug = ((TLRPC.TL_emojiStatusCollectible) chat.emoji_status).slug;
-                            nameTextView[a].setRightDrawableOnClick(v -> {
+                            nameTextViews[a].setRightDrawableOnClick(v -> {
                                 Browser.openUrl(getContext(), "https://" + getMessagesController().linkPrefix + "/nft/" + slug);
                             });
                         }
                     }
                 } else if (!copyFromChatActivity) {
                     if (chat.scam || chat.fake) {
-                        nameTextView[a].setRightDrawable2(getScamDrawable(chat.scam ? 0 : 1));
+                        nameTextViews[a].setRightDrawable2(getScamDrawable(chat.scam ? 0 : 1));
                     } else if (chat.verified) {
-                        nameTextView[a].setRightDrawable2(getVerifiedCrossfadeDrawable(a)) ;
+                        nameTextViews[a].setRightDrawable2(getVerifiedCrossfadeDrawable(a)) ;
                     } else if (getMessagesController().isDialogMuted(-chatId, topicId)) {
-                        nameTextView[a].setRightDrawable2(getThemedDrawable(Theme.key_drawable_muteIconDrawable));
+                        nameTextViews[a].setRightDrawable2(getThemedDrawable(Theme.key_drawable_muteIconDrawable));
                     } else {
-                        nameTextView[a].setRightDrawable2(null);
+                        nameTextViews[a].setRightDrawable2(null);
                     }
                     if (DialogObject.getEmojiStatusDocumentId(chat.emoji_status) != 0) {
-                        nameTextView[a].setRightDrawable(getEmojiStatusDrawable(chat.emoji_status, false, false, a));
-                        nameTextView[a].setRightDrawableOutside(true);
+                        nameTextViews[a].setRightDrawable(getEmojiStatusDrawable(chat.emoji_status, false, false, a));
+                        nameTextViews[a].setRightDrawableOutside(true);
                     } else {
-                        nameTextView[a].setRightDrawable(null);
+                        nameTextViews[a].setRightDrawable(null);
                     }
                 }
                 if (chat.bot_verification_icon != 0) {
-                    nameTextView[a].setLeftDrawableOutside(true);
-                    nameTextView[a].setLeftDrawable(getBotVerificationDrawable(chat.bot_verification_icon, false, a));
+                    nameTextViews[a].setLeftDrawableOutside(true);
+                    nameTextViews[a].setLeftDrawable(getBotVerificationDrawable(chat.bot_verification_icon, false, a));
                 } else {
-                    nameTextView[a].setLeftDrawable(null);
+                    nameTextViews[a].setLeftDrawable(null);
                 }
                 if (a == 0 && onlineTextOverride != null) {
-                    onlineTextView[a].setText(onlineTextOverride);
+                    onlineTextViews[a].setText(onlineTextOverride);
                 } else {
                     if (copyFromChatActivity || (currentChat.megagroup && chatInfo != null && onlineCount > 0) || isTopic) {
-                        onlineTextView[a].setText(a == 0 ? statusString : profileStatusString);
+                        onlineTextViews[a].setText(a == 0 ? statusString : profileStatusString);
                     } else if (a == 0 && ChatObject.isChannel(currentChat) && chatInfo != null && chatInfo.participants_count != 0 && (currentChat.megagroup || currentChat.broadcast)) {
                         int[] result = new int[1];
                         boolean ignoreShort = AndroidUtilities.isAccessibilityScreenReaderEnabled();
@@ -10187,28 +10194,28 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                         if (currentChat.megagroup) {
                             if (chatInfo.participants_count == 0) {
                                 if (chat.has_geo) {
-                                    onlineTextView[a].setText(LocaleController.getString(R.string.MegaLocation).toLowerCase());
+                                    onlineTextViews[a].setText(LocaleController.getString(R.string.MegaLocation).toLowerCase());
                                 } else if (ChatObject.isPublic(chat)) {
-                                    onlineTextView[a].setText(LocaleController.getString(R.string.MegaPublic).toLowerCase());
+                                    onlineTextViews[a].setText(LocaleController.getString(R.string.MegaPublic).toLowerCase());
                                 } else {
-                                    onlineTextView[a].setText(LocaleController.getString(R.string.MegaPrivate).toLowerCase());
+                                    onlineTextViews[a].setText(LocaleController.getString(R.string.MegaPrivate).toLowerCase());
                                 }
                             } else {
-                                onlineTextView[a].setText(LocaleController.formatPluralString("Members", result[0]).replace(String.format("%d", result[0]), shortNumber));
+                                onlineTextViews[a].setText(LocaleController.formatPluralString("Members", result[0]).replace(String.format("%d", result[0]), shortNumber));
                             }
                         } else {
-                            onlineTextView[a].setText(LocaleController.formatPluralString("Subscribers", result[0]).replace(String.format("%d", result[0]), shortNumber));
+                            onlineTextViews[a].setText(LocaleController.formatPluralString("Subscribers", result[0]).replace(String.format("%d", result[0]), shortNumber));
                         }
                     } else {
-                        onlineTextView[a].setText(a == 0 ? statusString : profileStatusString);
+                        onlineTextViews[a].setText(a == 0 ? statusString : profileStatusString);
                     }
                 }
                 if (a == 1 && isTopic) {
                     if (profileStatusIsButton) {
-                        onlineTextView[a].setOnClickListener(e -> goToForum());
+                        onlineTextViews[a].setOnClickListener(e -> goToForum());
                     } else {
-                        onlineTextView[a].setOnClickListener(null);
-                        onlineTextView[a].setClickable(false);
+                        onlineTextViews[a].setOnClickListener(null);
+                        onlineTextViews[a].setClickable(false);
                     }
                 }
             }
@@ -10276,14 +10283,14 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         if (topView != null) {
             topView.setBackgroundColorId(peerColor, true);
         }
-        if (onlineTextView[1] != null) {
+        if (onlineTextViews[1] != null) {
             int statusColor;
-            if (onlineTextView[1].getTag() instanceof Integer) {
-                statusColor = getThemedColor((Integer) onlineTextView[1].getTag());
+            if (onlineTextViews[1].getTag() instanceof Integer) {
+                statusColor = getThemedColor((Integer) onlineTextViews[1].getTag());
             } else {
                 statusColor = getThemedColor(Theme.key_avatar_subtitleInProfileBlue);
             }
-            onlineTextView[1].setTextColor(ColorUtils.blendARGB(applyPeerColor(statusColor, true, isOnline[0]), 0xB3FFFFFF, currentExpandAnimatorValue));
+            onlineTextViews[1].setTextColor(ColorUtils.blendARGB(applyPeerColor(statusColor, true, isOnline[0]), 0xB3FFFFFF, currentExpandAnimatorValue));
         }
         if (showStatusButton != null) {
             showStatusButton.setBackgroundColor(ColorUtils.blendARGB(Theme.multAlpha(Theme.adaptHSV(actionBarBackgroundColor, +0.18f, -0.1f), 0.5f), 0x23ffffff, currentExpandAnimatorValue));
@@ -10302,8 +10309,8 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             final int color2 = getThemedColor(Theme.key_windowBackgroundWhite);
             verifiedCheckDrawable[1].setColorFilter(AndroidUtilities.getOffsetColor(color1, color2, mediaHeaderAnimationProgress, 1.0f), PorterDuff.Mode.MULTIPLY);
         }
-        if (nameTextView[1] != null) {
-            nameTextView[1].setTextColor(ColorUtils.blendARGB(ColorUtils.blendARGB(peerColor != null ? Color.WHITE : getThemedColor(Theme.key_profile_title), getThemedColor(Theme.key_player_actionBarTitle), mediaHeaderAnimationProgress), Color.WHITE, currentExpandAnimatorValue));
+        if (nameTextViews[1] != null) {
+//            nameTextViews[1].setTextColor(ColorUtils.blendARGB(ColorUtils.blendARGB(peerColor != null ? Color.WHITE : getThemedColor(Theme.key_profile_title), getThemedColor(Theme.key_player_actionBarTitle), mediaHeaderAnimationProgress), Color.WHITE, currentExpandAnimatorValue));
         }
         if (autoDeletePopupWrapper != null && autoDeletePopupWrapper.textView != null) {
             autoDeletePopupWrapper.textView.invalidate();
@@ -10826,9 +10833,9 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         needLayout(true);
 
         avatarContainer.setVisibility(View.VISIBLE);
-        nameTextView[1].setVisibility(View.VISIBLE);
-        onlineTextView[1].setVisibility(View.VISIBLE);
-        onlineTextView[3].setVisibility(View.VISIBLE);
+        nameTextViews[1].setVisibility(View.VISIBLE);
+        onlineTextViews[1].setVisibility(View.VISIBLE);
+        onlineTextViews[3].setVisibility(View.VISIBLE);
 
         actionBar.onSearchFieldVisibilityChanged(searchTransitionProgress > 0.5f);
         int itemVisibility = searchTransitionProgress > 0.5f ? View.VISIBLE : View.GONE;
@@ -10876,9 +10883,9 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             if (storyView != null) {
                 storyView.setAlpha(progressHalf);
             }
-            nameTextView[1].setAlpha(progressHalf);
-            onlineTextView[1].setAlpha(progressHalf);
-            onlineTextView[3].setAlpha(progressHalf);
+            nameTextViews[1].setAlpha(progressHalf);
+            onlineTextViews[1].setAlpha(progressHalf);
+            onlineTextViews[3].setAlpha(progressHalf);
 
             searchItem.getSearchField().setAlpha(progressHalfEnd);
             if (enter && searchTransitionProgress < 0.7f) {
@@ -10956,9 +10963,9 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         if (storyView != null) {
             storyView.setVisibility(hide);
         }
-        nameTextView[1].setVisibility(hide);
-        onlineTextView[1].setVisibility(hide);
-        onlineTextView[3].setVisibility(hide);
+        nameTextViews[1].setVisibility(hide);
+        onlineTextViews[1].setVisibility(hide);
+        onlineTextViews[3].setVisibility(hide);
 
         if (otherItem != null) {
             otherItem.setAlpha(1f);
@@ -10977,8 +10984,8 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         if (giftsView != null) {
             giftsView.setAlpha(1f);
         }
-        nameTextView[1].setAlpha(1f);
-        onlineTextView[1].setAlpha(1f);
+        nameTextViews[1].setAlpha(1f);
+        onlineTextViews[1].setAlpha(1f);
         searchItem.setAlpha(1f);
         listView.setAlpha(1f);
         searchListView.setAlpha(1f);
@@ -13328,13 +13335,13 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 }
             }
             if (!isPulledDown) {
-                if (onlineTextView[1] != null) {
-                    final Object onlineTextViewTag = onlineTextView[1].getTag();
+                if (onlineTextViews[1] != null) {
+                    final Object onlineTextViewTag = onlineTextViews[1].getTag();
                     for (int i = 0; i < 2; i++) {
                         if (onlineTextViewTag instanceof Integer) {
-                            onlineTextView[i + 1].setTextColor(applyPeerColor(getThemedColor((Integer) onlineTextViewTag), true, isOnline[0]));
+                            onlineTextViews[i + 1].setTextColor(applyPeerColor(getThemedColor((Integer) onlineTextViewTag), true, isOnline[0]));
                         } else {
-                            onlineTextView[i + 1].setTextColor(applyPeerColor(getThemedColor(Theme.key_avatar_subtitleInProfileBlue), true, true));
+                            onlineTextViews[i + 1].setTextColor(applyPeerColor(getThemedColor(Theme.key_avatar_subtitleInProfileBlue), true, true));
                         }
                     }
                 }
@@ -13344,8 +13351,8 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 if (scamDrawable != null) {
                     scamDrawable.setColor(getThemedColor(Theme.key_avatar_subtitleInProfileBlue));
                 }
-                if (nameTextView[1] != null) {
-                    nameTextView[1].setTextColor(getThemedColor(Theme.key_profile_title));
+                if (nameTextViews[1] != null) {
+//                    nameTextViews[1].setTextColor(getThemedColor(Theme.key_profile_title));
                 }
                 if (actionBar != null) {
                     actionBar.setItemsColor(peerColor != null ? Color.WHITE : getThemedColor(Theme.key_actionBarDefaultIcon), false);
@@ -13421,7 +13428,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
 
         arrayList.add(new ThemeDescription(listView, ThemeDescription.FLAG_TEXTCOLOR, new Class[]{UserCell.class}, new String[]{"adminTextView"}, null, null, null, Theme.key_profile_creatorIcon));
         arrayList.add(new ThemeDescription(listView, 0, new Class[]{UserCell.class}, new String[]{"imageView"}, null, null, null, Theme.key_windowBackgroundWhiteGrayIcon));
-        arrayList.add(new ThemeDescription(listView, 0, new Class[]{UserCell.class}, new String[]{"nameTextView"}, null, null, null, Theme.key_windowBackgroundWhiteBlackText));
+        arrayList.add(new ThemeDescription(listView, 0, new Class[]{UserCell.class}, new String[]{"nameTextViews"}, null, null, null, Theme.key_windowBackgroundWhiteBlackText));
         arrayList.add(new ThemeDescription(listView, 0, new Class[]{UserCell.class}, new String[]{"statusColor"}, null, null, themeDelegate, Theme.key_windowBackgroundWhiteGrayText));
         arrayList.add(new ThemeDescription(listView, 0, new Class[]{UserCell.class}, new String[]{"statusOnlineColor"}, null, null, themeDelegate, Theme.key_windowBackgroundWhiteBlueText));
         arrayList.add(new ThemeDescription(listView, 0, new Class[]{UserCell.class}, null, Theme.avatarDrawables, null, Theme.key_avatar_text));
@@ -13460,11 +13467,11 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         arrayList.add(new ThemeDescription(searchListView, 0, new Class[]{SettingsSearchCell.class}, new String[]{"imageView"}, null, null, null, Theme.key_windowBackgroundWhiteGrayIcon));
 
         if (mediaHeaderVisible) {
-            arrayList.add(new ThemeDescription(nameTextView[1], 0, null, null, verifiedCheckDrawable, null, Theme.key_player_actionBarTitle));
-            arrayList.add(new ThemeDescription(nameTextView[1], 0, null, null, verifiedDrawable, null, Theme.key_windowBackgroundWhite));
+            arrayList.add(new ThemeDescription(nameTextViews[1], 0, null, null, verifiedCheckDrawable, null, Theme.key_player_actionBarTitle));
+            arrayList.add(new ThemeDescription(nameTextViews[1], 0, null, null, verifiedDrawable, null, Theme.key_windowBackgroundWhite));
         } else {
-            arrayList.add(new ThemeDescription(nameTextView[1], 0, null, null, verifiedCheckDrawable, null, Theme.key_profile_verifiedCheck));
-            arrayList.add(new ThemeDescription(nameTextView[1], 0, null, null, verifiedDrawable, null, Theme.key_profile_verifiedBackground));
+            arrayList.add(new ThemeDescription(nameTextViews[1], 0, null, null, verifiedCheckDrawable, null, Theme.key_profile_verifiedCheck));
+            arrayList.add(new ThemeDescription(nameTextViews[1], 0, null, null, verifiedDrawable, null, Theme.key_profile_verifiedBackground));
         }
 
         return arrayList;
@@ -13847,7 +13854,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         if (playProfileAnimation == 1 && (!fragmentOpened || openAnimationInProgress)) {
             photoDescriptionProgress = 0;
         } else if (playProfileAnimation == 2 && (!fragmentOpened || openAnimationInProgress)) {
-            photoDescriptionProgress = onlineTextView[1] == null ? 0 : onlineTextView[1].getAlpha();
+            photoDescriptionProgress = onlineTextViews[1] == null ? 0 : onlineTextViews[1].getAlpha();
         } else {
             if (userId == UserConfig.getInstance(currentAccount).clientUserId) {
                 photoDescriptionProgress = currentExpandAnimatorValue * (1f - customAvatarProgress);
@@ -13861,20 +13868,20 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         if (userId == UserConfig.getInstance(currentAccount).clientUserId) {
             if (hasFallbackPhoto) {
                 customPhotoOffset = AndroidUtilities.dp(28) * photoDescriptionProgress;
-                if (onlineTextView[2] != null) {
-                    onlineTextView[2].setAlpha(currentExpandAnimatorValue);
-                    onlineTextView[3].setAlpha(1f - currentExpandAnimatorValue);
-                    //  onlineTextView[1].setAlpha(1f - expandProgress);
-                    onlineTextView[1].setTranslationX(onlineX + customPhotoOffset);
+                if (onlineTextViews[2] != null) {
+                    onlineTextViews[2].setAlpha(currentExpandAnimatorValue);
+                    onlineTextViews[3].setAlpha(1f - currentExpandAnimatorValue);
+                    //  onlineTextViews[1].setAlpha(1f - expandProgress);
+//                    onlineTextViews[1].setTranslationX(onlineX + customPhotoOffset);
                     avatarContainer2.invalidate();
                     if (showStatusButton != null) {
                         showStatusButton.setAlpha2(1f - currentExpandAnimatorValue);
                     }
                 }
             } else {
-                if (onlineTextView[2] != null) {
-                    onlineTextView[2].setAlpha(0);
-                    onlineTextView[3].setAlpha(0);
+                if (onlineTextViews[2] != null) {
+                    onlineTextViews[2].setAlpha(0);
+                    onlineTextViews[3].setAlpha(0);
                 }
                 if (showStatusButton != null) {
                     showStatusButton.setAlpha2(1f);
@@ -13883,15 +13890,15 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
 
         } else {
             if (hasCustomPhoto) {
-                if (onlineTextView[2] != null) {
-                    onlineTextView[2].setAlpha(photoDescriptionProgress);
+                if (onlineTextViews[2] != null) {
+                    onlineTextViews[2].setAlpha(photoDescriptionProgress);
                 }
                 if (showStatusButton != null) {
                     showStatusButton.setAlpha2(1f - photoDescriptionProgress);
                 }
             } else {
-                if (onlineTextView[2] != null) {
-                    onlineTextView[2].setAlpha(0);
+                if (onlineTextViews[2] != null) {
+                    onlineTextViews[2].setAlpha(0);
                 }
                 if (showStatusButton != null) {
                     showStatusButton.setAlpha2(1f);
@@ -14573,9 +14580,9 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
 
     public void updateCollectibleHint() {
         if (collectibleHint == null) return;
-        collectibleHint.setJointPx(0, -collectibleHint.getPaddingLeft() + nameTextView[1].getX() + (nameTextView[1].getRightDrawableX() - nameTextView[1].getRightDrawableWidth() * lerp(0.45f, 0.25f, currentExpandAnimatorValue)) * nameTextView[1].getScaleX());
+        collectibleHint.setJointPx(0, -collectibleHint.getPaddingLeft() + nameTextViews[1].getX() + (nameTextViews[1].getRightDrawableX() - nameTextViews[1].getRightDrawableWidth() * lerp(0.45f, 0.25f, currentExpandAnimatorValue)) * nameTextViews[1].getScaleX());
         final float expanded = AndroidUtilities.lerp(expandAnimatorValues, currentExpandAnimatorFracture);
-        collectibleHint.setTranslationY(-collectibleHint.getPaddingBottom() + nameTextView[1].getY() - dp(24) + lerp(dp(6), -dp(12), expanded));
+        collectibleHint.setTranslationY(-collectibleHint.getPaddingBottom() + nameTextViews[1].getY() - dp(24) + lerp(dp(6), -dp(12), expanded));
         collectibleHint.setBgColor(ColorUtils.blendARGB(collectibleHintBackgroundColor, 0x50000000, expanded));
         final boolean visible = extraHeight >= dp(82);
         if (collectibleHintVisible == null || collectibleHintVisible != visible) {
