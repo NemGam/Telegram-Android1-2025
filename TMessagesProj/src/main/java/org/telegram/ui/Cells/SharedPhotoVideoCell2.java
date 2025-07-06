@@ -86,7 +86,6 @@ public class SharedPhotoVideoCell2 extends FrameLayout {
     boolean showVideoLayout;
     StaticLayout videoInfoLayot;
     String videoText;
-    boolean drawVideoIcon = true;
 
     private int privacyType;
     private Bitmap privacyBitmap;
@@ -447,13 +446,12 @@ public class SharedPhotoVideoCell2 extends FrameLayout {
         return lastAutoDownload;
     }
 
-    public void setVideoText(String videoText, boolean drawVideoIcon) {
+    public void setVideoText(String videoText) {
         this.videoText = videoText;
         showVideoLayout = videoText != null;
         if (showVideoLayout && videoInfoLayot != null && !videoInfoLayot.getText().toString().equals(videoText)) {
             videoInfoLayot = null;
         }
-        this.drawVideoIcon = drawVideoIcon;
     }
 
     private float getPadding() {
@@ -671,22 +669,16 @@ public class SharedPhotoVideoCell2 extends FrameLayout {
             videoInfoLayot = null;
         }
         final boolean up = viewsOnLeft(fwidth);
-        int width = dp(8) + (videoInfoLayot != null ? videoInfoLayot.getWidth() : 0) + (drawVideoIcon ? dp(10) : 0);
-        canvas.translate(dp(5), dp(1) + bounds.height() - dp(17) - dp(4) - (up ? dp(17 + 5) : 0));
+        int width = dp(8) + (videoInfoLayot != null ? videoInfoLayot.getWidth() : 0);
+        canvas.translate(bounds.width() - dp(5) - width, dp(1) + bounds.height() - dp(17) - dp(4) - (up ? dp(17 + 5) : 0));
         AndroidUtilities.rectTmp.set(0, 0, width, dp(17));
         int oldAlpha = Theme.chat_timeBackgroundPaint.getAlpha();
         Theme.chat_timeBackgroundPaint.setAlpha((int) (oldAlpha * alpha));
         canvas.drawRoundRect(AndroidUtilities.rectTmp, dp(4), dp(4), Theme.chat_timeBackgroundPaint);
         Theme.chat_timeBackgroundPaint.setAlpha(oldAlpha);
-        if (drawVideoIcon) {
-            canvas.save();
-            canvas.translate(videoInfoLayot == null ? dp(5) : dp(4), (dp(17) - sharedResources.playDrawable.getIntrinsicHeight()) / 2f);
-            sharedResources.playDrawable.setAlpha((int) (255 * imageAlpha * alpha));
-            sharedResources.playDrawable.draw(canvas);
-            canvas.restore();
-        }
+
         if (videoInfoLayot != null) {
-            canvas.translate(dp(4 + (drawVideoIcon ? 10 : 0)), (dp(17) - videoInfoLayot.getHeight()) / 2f);
+            canvas.translate(dp(4), (dp(17) - videoInfoLayot.getHeight()) / 2f);
             oldAlpha = sharedResources.textPaint.getAlpha();
             sharedResources.textPaint.setAlpha((int) (oldAlpha * alpha));
             videoInfoLayot.draw(canvas);
@@ -710,7 +702,7 @@ public class SharedPhotoVideoCell2 extends FrameLayout {
             return false;
         }
         final int viewsWidth = dp(18 + 8) + (int) viewsText.getCurrentWidth();
-        final int durationWidth = showVideoLayout ? dp(8) + (videoInfoLayot != null ? videoInfoLayot.getWidth() : 0) + (drawVideoIcon ? dp(10) : 0) : 0;
+        final int durationWidth = showVideoLayout ? dp(8) + (videoInfoLayot != null ? videoInfoLayot.getWidth() : 0) : 0;
         final int padding = viewsWidth > 0 && durationWidth > 0 ? dp(8) : 0;
         final int totalWidth = viewsWidth + padding + durationWidth;
         return totalWidth > width;
