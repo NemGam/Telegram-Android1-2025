@@ -473,8 +473,8 @@ public class SharedPhotoVideoCell2 extends FrameLayout {
         super.onDraw(canvas);
 
         final float padding = getPadding();
-        final float leftpadding = isStory && isFirst ? 0 : padding;
-        final float rightpadding = isStory && isLast ? 0 : padding;
+        final float leftpadding = isFirst ? 0 : padding;
+        final float rightpadding = isLast ? 0 : padding;
 
         float imageWidth = (getMeasuredWidth() - leftpadding - rightpadding) * imageScale;
         float imageHeight = (getMeasuredHeight() - padding * 2) * imageScale;
@@ -508,7 +508,7 @@ public class SharedPhotoVideoCell2 extends FrameLayout {
             canvas.drawRect(leftpadding, padding, leftpadding + imageWidth - rightpadding, imageHeight, sharedResources.backgroundPaint);
         }
 
-        if (isStory && currentParentColumnsCount == 1) {
+        if (currentParentColumnsCount == 1) {
             final float w = getHeight() * .72f;
             if (gradientDrawable == null) {
                 if (!gradientDrawableLoading && imageReceiver.getBitmap() != null) {
@@ -855,8 +855,8 @@ public class SharedPhotoVideoCell2 extends FrameLayout {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         int width = MeasureSpec.getSize(widthMeasureSpec);
-        int height = isStory ? (int) (1.25f * width) : width;
-        if (isStory && currentParentColumnsCount == 1) {
+        int height = (int)(1.25f * width);
+        if (currentParentColumnsCount == 1) {
             height /= 2;
         }
         setMeasuredDimension(width, height);

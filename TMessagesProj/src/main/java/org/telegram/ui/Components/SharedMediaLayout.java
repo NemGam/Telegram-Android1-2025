@@ -10392,9 +10392,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
                     float fromSize = getMeasuredWidth() / (float) getColumnsCount();
                     float toSize = (getMeasuredWidth() / (float) getAnimateToColumnsCount());
                     float size1 = (float) ((Math.ceil((getMeasuredWidth() / (float) getAnimateToColumnsCount())) - AndroidUtilities.dpf2(2)) * scaleSize + AndroidUtilities.dpf2(2));
-                    if (isStories()) {
-                        size1 *= 1.25f;
-                    }
+                    size1 *= 1.25f;
 
                     for (int i = 0; i < drawingViews.size(); i++) {
                         SharedPhotoVideoCell2 view = drawingViews.get(i);
@@ -10431,9 +10429,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
                     float scaleSize = sizeToScale * getChangeColumnsProgress() + (1f - getChangeColumnsProgress());
 
                     float size1 = (float) ((Math.ceil((getMeasuredWidth() / (float) getColumnsCount())) - AndroidUtilities.dpf2(2)) * scaleSize + AndroidUtilities.dpf2(2));
-                    if (isStories()) {
-                        size1 *= 1.25f;
-                    }
+                    size1 *= 1.25f;
                     float fromSize = getMeasuredWidth() / (float) getColumnsCount();
                     float toSize = getMeasuredWidth() / (float) getAnimateToColumnsCount();
 
