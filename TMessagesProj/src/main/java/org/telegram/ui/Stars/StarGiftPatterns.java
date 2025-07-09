@@ -123,6 +123,27 @@ public class StarGiftPatterns {
         }
     }
 
+    private static final float[] profileCenter = new float[]{
+            45.66f, 0, 22, .172f,
+            -45.66f, 0, 22, .172f,
+            -155.66f, -85, 20, .172f,
+            155.66f, -85, 20, .172f,
+            45.66f, -170, 20, .172f,
+            -45.66f, -170, 20, .172f,
+            -95.66f, -85, 24, .3354f,
+            95.66f, -85, 24, .3354f,
+            -120.66f, -30, 22, .172f,
+            120.66f, -30, 22, .172f,
+            0f, -20, 22, .172f,
+            -115.66f, -140, 20, .172f,
+            115.66f, -140, 20, .172f,
+            0f, -150, 24, .172f,
+            65f, -120, 24, .3654f,
+            -65f, -120, 24, .3654f,
+            70f, -50, 24, .3654f,
+            -70f, -50, 24, .3654f,
+    };
+
     private static final float[] profileRight = new float[] {
         -35.66f, -5, 24, .2388f,
         -14.33f, -29.33f, 20.66f, .32f,
@@ -192,16 +213,16 @@ public class StarGiftPatterns {
             }
         }
 
-        for (int i = 0; i < profileRight.length; i += 4) {
-            final float x = profileRight[i];
-            final float y = profileRight[i + 1];
-            final float size = profileRight[i + 2];
-            final float thisAlpha = profileRight[i + 3];
+        for (int i = 0; i < profileCenter.length; i += 4) {
+            final float x = profileCenter[i];
+            final float y = profileCenter[i + 1];
+            final float size = profileCenter[i + 2];
+            final float thisAlpha = profileCenter[i + 3];
 
             pattern.setBounds(
-                (int) (r + dpf2(x) - dpf2(size) / 2.0f),
+                (int) (r / 2 + dpf2(x) - dpf2(size) / 2.0f),
                 (int) (b + dpf2(y) - dpf2(size) / 2.0f),
-                (int) (r + dpf2(x) + dpf2(size) / 2.0f),
+                (int) (r / 2 + dpf2(x) + dpf2(size) / 2.0f),
                 (int) (b + dpf2(y) + dpf2(size) / 2.0f)
             );
             pattern.setAlpha((int) (0xFF * alpha * thisAlpha));
