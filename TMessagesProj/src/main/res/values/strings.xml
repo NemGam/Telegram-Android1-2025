@@ -491,6 +491,7 @@
     <string name="GroupAddMembers">Add Members</string>
     <string name="ChannelAddSubscribers">Add Subscribers</string>
     <string name="LeaveChannel">Leave Channel</string>
+    <string name="Leave">Leave</string>
     <string name="LeaveChannelMenu">Leave channel</string>
     <string name="ChannelSettings">Settings</string>
     <string name="ChannelJoin">JOIN</string>
@@ -748,6 +749,7 @@
     <string name="ChatHistoryHiddenInfo2">New members won\'t see more than 100 previous messages.</string>
     <string name="ProfileJoinChannel">Join Channel</string>
     <string name="ProfileJoinGroup">Join Group</string>
+    <string name="JoinGroupTitle">Join</string>
     <string name="GroupType">Group Type</string>
     <string name="ChannelType">Channel Type</string>
     <string name="GroupTypeHeader">Group type</string>
@@ -785,6 +787,7 @@
     <string name="CantAddBotAsAdmin">Sorry, bots can only be added to channels as administrators.</string>
     <string name="AdminWillBeRemoved">%1$s will be removed from admins if you restrict them.</string>
     <string name="Discussion">Discussion</string>
+    <string name="Discuss">Discuss</string>
     <string name="ViewDiscussion">View discussion</string>
     <string name="DiscussionInfo">Add a group chat for comments</string>
     <string name="LinkedChannel">Linked Channel</string>
@@ -3605,6 +3608,7 @@
     <string name="SuggestedPostAcceptTitle">Accept Terms</string>
     <string name="Call">Call</string>
     <string name="VideoCall">Video Call</string>
+    <string name="VideoCallTitle">Video</string>
     <string name="Copy">Copy</string>
     <string name="Restrict">Restrict</string>
     <string name="Ban">Ban</string>
@@ -5387,6 +5391,7 @@
     <string name="GiftPremium">Gift Premium</string>
     <string name="GiftPremiumGifting">Premium Gifting</string>
     <string name="SendAGift">Send a Gift</string>
+    <string name="Gift">Gift</string>
     <string name="ProfileSendAGift">Send a Gift</string>
     <string name="ProfileSendAGiftToChannel">Send a Gift</string>
     <string name="GiftPremiumActivateForFree">Activate For Free</string>
