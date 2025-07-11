@@ -333,9 +333,7 @@ public class ProfileGiftsView extends View implements NotificationCenter.Notific
         canvas.clipRect(0, 0, getWidth(), expandY);
 
         final float acx = ax + aw / 2.0f;
-        final float cacx = Math.min(acx, dp(48));
         final float acy = ay + ah / 2.0f;
-        final float ar = Math.min(aw, ah) / 2.0f + dp(6);
         final float cx = getWidth() / 2.0f;
 
         final float closedAlpha = Utilities.clamp01((float) (expandY - (AndroidUtilities.statusBarHeight + ActionBar.getCurrentActionBarHeight())) / dp(50));
@@ -348,15 +346,16 @@ public class ProfileGiftsView extends View implements NotificationCenter.Notific
             if (index == 0) {
                 gift.draw(
                     canvas,
-                    (float) (acx + ar * Math.cos(-65 / 180.0f * Math.PI)),
-                    (float) (acy + ar * Math.sin(-65 / 180.0f * Math.PI)),
+                    (float) (ax - AndroidUtilities.dp(55)),
+                    (float) acy,
                     scale, -65 + 90,
                     alpha * (1.0f - expandProgress), lerp(0.9f, 0.25f, actionBarProgress)
                 );
             } else if (index == 1) {
                 gift.draw(
                     canvas,
-                    lerp(cacx + Math.min(getWidth() * .27f, dp(62)), cx, 0.5f * actionBarProgress), acy - dp(52),
+                    lerp(ax + AndroidUtilities.dp(145), cx, 0),
+                        acy,
                     scale, -4.0f,
                     alpha * alpha * (1.0f - expandProgress) * (1.0f - actionBarProgress) * (closedAlpha),
                     1.0f
@@ -364,7 +363,8 @@ public class ProfileGiftsView extends View implements NotificationCenter.Notific
             } else if (index == 2) {
                 gift.draw(
                     canvas,
-                    lerp(cacx + Math.min(getWidth() * .46f, dp(105)), cx, 0.5f * actionBarProgress), acy - dp(72),
+                    lerp(ax - AndroidUtilities.dp(25), cx, 0),
+                        acy + AndroidUtilities.dp(40),
                     scale, 8.0f,
                     alpha * (1.0f - expandProgress) * (1.0f - actionBarProgress) * (closedAlpha),
                     1.0f
@@ -372,7 +372,8 @@ public class ProfileGiftsView extends View implements NotificationCenter.Notific
             } else if (index == 3) {
                 gift.draw(
                     canvas,
-                    lerp(cacx + Math.min(getWidth() * .60f, dp(136)), cx, 0.5f * actionBarProgress), acy - dp(46),
+                    lerp(ax + AndroidUtilities.dp(115), cx, 0),
+                        acy + AndroidUtilities.dp(40),
                     scale, 3.0f,
                     alpha * (1.0f - expandProgress) * (1.0f - actionBarProgress) * (closedAlpha),
                     1.0f
@@ -380,7 +381,8 @@ public class ProfileGiftsView extends View implements NotificationCenter.Notific
             } else if (index == 4) {
                 gift.draw(
                     canvas,
-                    lerp(cacx + Math.min(getWidth() * .08f, dp(21.6f)), cx, 0.5f * actionBarProgress), acy - dp(82f),
+                    lerp(ax + AndroidUtilities.dp(115), cx, 0),
+                        acy - AndroidUtilities.dp(40),
                     scale, -3.0f,
                     alpha * (1.0f - expandProgress) * (1.0f - actionBarProgress) * (closedAlpha),
                     1.0f
@@ -388,7 +390,8 @@ public class ProfileGiftsView extends View implements NotificationCenter.Notific
             } else if (index == 5) {
                 gift.draw(
                     canvas,
-                    lerp(cacx + Math.min(getWidth() * .745f, dp(186)), cx, 0.5f * actionBarProgress), acy - dp(39),
+                    lerp(ax - AndroidUtilities.dp(25), cx, 0),
+                        acy - AndroidUtilities.dp(40),
                     scale, 2.0f,
                     alpha * (1.0f - expandProgress) * (1.0f - actionBarProgress) * (closedAlpha),
                     1.0f
@@ -396,7 +399,7 @@ public class ProfileGiftsView extends View implements NotificationCenter.Notific
             } else if (index == 6) {
                 gift.draw(
                     canvas,
-                    cacx + Math.min(getWidth() * .38f, dp(102)), expandY - dp(12),
+                        acx + Math.min(getWidth() * .38f, dp(102)), expandY - dp(12),
                     scale, 0,
                     alpha * (1.0f - expandProgress) * (1.0f - actionBarProgress) * (closedAlpha),
                     1.0f
@@ -404,7 +407,7 @@ public class ProfileGiftsView extends View implements NotificationCenter.Notific
             } else if (index == 7) {
                 gift.draw(
                     canvas,
-                    cacx + Math.min(getWidth() * .135f, dp(36)), expandY - dp(17.6f),
+                        acx + Math.min(getWidth() * .135f, dp(36)), expandY - dp(17.6f),
                     scale, -5.0f,
                     alpha * (1.0f - expandProgress) * (1.0f - actionBarProgress) * (closedAlpha),
                     1.0f
@@ -412,7 +415,7 @@ public class ProfileGiftsView extends View implements NotificationCenter.Notific
             } else if (index == 8) {
                 gift.draw(
                     canvas,
-                    cacx + Math.min(getWidth() * .76f, dp(178)), expandY - dp(21.66f),
+                        acx + Math.min(getWidth() * .76f, dp(178)), expandY - dp(21.66f),
                     scale, 5.0f,
                     alpha * (1.0f - expandProgress) * (1.0f - actionBarProgress) * (closedAlpha),
                     1.0f
