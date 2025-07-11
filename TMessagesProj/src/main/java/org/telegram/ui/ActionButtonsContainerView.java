@@ -24,9 +24,7 @@ public class ActionButtonsContainerView extends LinearLayout {
     }
 
     public void setButtonsAlpha(float alpha){
-        System.out.println("1:" + alpha);
         for (int i = 0; i < currentButtons.size(); i++){
-            System.out.println("1:" + alpha);
             currentButtons.get(i).setButtonAlpha(alpha);
         }
     }

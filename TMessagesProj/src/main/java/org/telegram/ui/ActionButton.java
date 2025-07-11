@@ -66,7 +66,7 @@ public class ActionButton extends LinearLayout {
         // 1) Build either a RippleDrawable or a StateListDrawable
         Drawable bgDrawable;
         int corner = AndroidUtilities.dp(16);
-        int purple = Color.parseColor("#666E56F5");
+        int purple = Color.parseColor("#551a00ab");
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             // base shape
             GradientDrawable shape = new GradientDrawable();
@@ -176,7 +176,6 @@ public class ActionButton extends LinearLayout {
 
 
     public void setButtonAlpha(float alpha){
-        System.out.println(alpha);
         if (alpha <= 0){
             setVisibility(GONE);
         }
