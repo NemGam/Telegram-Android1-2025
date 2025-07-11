@@ -746,8 +746,7 @@ public class SharedPhotoVideoCell2 extends FrameLayout {
 
         final float fwidth = bounds.width() + dp(20) * checkBoxProgress;
         final float scale = bounds.width() / fwidth;
-        final boolean left = viewsOnLeft(fwidth);
-
+        final boolean left = true;
         float a = viewsAlpha.set(drawViews);
         alpha *= a;
 
