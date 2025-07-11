@@ -409,7 +409,6 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
     private ActionBarMenuSubItem linkItem;
     private ActionBarMenuSubItem setUsernameItem;
     private ImageView ttlIconView;
-    private ActionBarMenuItem qrItem;
     private ActionBarMenuSubItem autoDeleteItem;
     AutoDeletePopupWrapper autoDeletePopupWrapper;
     protected float headerShadowAlpha = 1.0f;
@@ -4828,10 +4827,13 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             onlineTextViews[a].setFocusable(a == 0);
             avatarContainer2.addView(onlineTextViews[a], LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.LEFT | Gravity.TOP, 0 - (a == 2 || a == 3? 4 : 0), (a == 1 || a == 2 || a == 3 ? -2 : 0), (a == 0 ? rightMargin - (hasTitleExpanded ? 10 : 0) : 8) - (a == 1 || a == 2 || a == 3 ? 4 : 0), 0));
         }
-        nameTextViews[0].setTranslationX(AndroidUtilities.dp(118) - nameTextViews[0].getLeft());
-        nameTextViews[0].setTranslationY(actionBar.getTranslationY() + (getActionBarHeight() / 2.0f + AndroidUtilities.dp(3)));
-        onlineTextViews[0].setTranslationX(AndroidUtilities.dp(118) - onlineTextViews[0].getLeft());
-        onlineTextViews[0].setTranslationY(actionBar.getTranslationY() + (getActionBarHeight() / 2.0f + AndroidUtilities.dp(26)));
+        if (nameTextViews[0] != null){
+            nameTextViews[0].setTranslationX(AndroidUtilities.dp(118) - nameTextViews[0].getLeft());
+            nameTextViews[0].setTranslationY(actionBar.getTranslationY() + (getActionBarHeight() / 2.0f + AndroidUtilities.dp(3)));
+            onlineTextViews[0].setTranslationX(AndroidUtilities.dp(118) - onlineTextViews[0].getLeft());
+            onlineTextViews[0].setTranslationY(actionBar.getTranslationY() + (getActionBarHeight() / 2.0f + AndroidUtilities.dp(26)));
+        }
+
 
 
         checkPhotoDescriptionAlpha();
@@ -11568,13 +11570,6 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             switch (holder.getItemViewType()) {
                 case VIEW_TYPE_HEADER:
                     HeaderCell headerCell = (HeaderCell) holder.itemView;
-//                    if (position == infoHeaderRow) {
-//                        if (ChatObject.isChannel(currentChat) && !currentChat.megagroup && channelInfoRow != -1) {
-//                            headerCell.setText(LocaleController.getString(R.string.ReportChatDescription));
-//                        } else {
-//                            headerCell.setText(LocaleController.getString(R.string.Info));
-//                        }
-//                    } else
                     if (position == membersHeaderRow) {
                         headerCell.setText(LocaleController.getString(R.string.ChannelMembers));
                     } else if (position == settingsSectionRow2) {
@@ -13584,10 +13579,6 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             undoView.showWithAction(dialogId, UndoView.ACTION_CONTACT_ADDED, user);
         });
         presentFragment(contactAddActivity);
-    }
-
-    private boolean isQrNeedVisible() {
-        return true;
     }
 
     private class DiffCallback extends DiffUtil.Callback {

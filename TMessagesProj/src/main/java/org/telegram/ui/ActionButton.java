@@ -55,15 +55,12 @@ public class ActionButton extends LinearLayout {
     public ActionButton(@NonNull Context context, @Nullable AttributeSet attrs, String text, int drawable, int priority, View.OnClickListener onClick) {
         super(context, attrs);
 
-        final float BITMAP_SCALE = 0.125f;
-        final float BLUR_RADIUS  = 20f;
         this.priority = priority;
         setOrientation(VERTICAL);
         setPivotY(0);
         setClickable(true);
         setFocusable(true);
 
-        // 1) Build either a RippleDrawable or a StateListDrawable
         Drawable bgDrawable;
         int corner = AndroidUtilities.dp(16);
         int purple = Color.parseColor("#551a00ab");
@@ -72,7 +69,6 @@ public class ActionButton extends LinearLayout {
             GradientDrawable shape = new GradientDrawable();
             shape.setColor(purple);
             shape.setCornerRadius(corner);
-            // white ripple, masked to our rounded rect
             GradientDrawable mask = new GradientDrawable();
             mask.setCornerRadius(corner);
             mask.setColor(0x44FFFFFF);
@@ -86,7 +82,6 @@ public class ActionButton extends LinearLayout {
             GradientDrawable normal = new GradientDrawable();
             normal.setColor(purple);
             normal.setCornerRadius(corner);
-            // 20% white overlay
             GradientDrawable overlay = new GradientDrawable();
             overlay.setColor(Color.WHITE);
             overlay.setCornerRadius(corner);
@@ -120,7 +115,6 @@ public class ActionButton extends LinearLayout {
         labelView = new TextView(context);
         labelView.setText(text);
         labelView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
-//        labelView.setTypeface(Typeface.DEFAULT_BOLD);
         labelView.setTextColor(Color.WHITE);
         labelView.setGravity(Gravity.CENTER);
         LayoutParams labelLp = new LayoutParams(
@@ -139,7 +133,6 @@ public class ActionButton extends LinearLayout {
         return priority;
     }
 
-    /** Grab Android’s ripple drawable for pressed feedback */
     private Drawable getPressDrawable(Context ctx) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             // real ripple on Lollipop+
@@ -151,12 +144,11 @@ public class ActionButton extends LinearLayout {
         } else {
             // simple white‐tint overlay on press for pre-21
             StateListDrawable sd = new StateListDrawable();
-            // when pressed, draw a translucent white
             sd.addState(
                     new int[]{android.R.attr.state_pressed},
                     new ColorDrawable(0x33FFFFFF)
             );
-            // default: transparent
+
             sd.addState(
                     new int[0],
                     new ColorDrawable(Color.TRANSPARENT)
@@ -165,7 +157,6 @@ public class ActionButton extends LinearLayout {
         }
     }
 
-    /** Public setters if you need to change icon/text at runtime */
     public void setIconResource(@DrawableRes int resId) {
         iconView.setImageResource(resId);
     }
