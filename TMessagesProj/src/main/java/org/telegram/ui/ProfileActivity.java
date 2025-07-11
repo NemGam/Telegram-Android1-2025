@@ -922,7 +922,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     final float wasImageW = animateFromImageReceiver.getImageWidth();
                     final float wasImageH = animateFromImageReceiver.getImageHeight();
                     final float wasAlpha = animateFromImageReceiver.getAlpha();
-                    animateFromImageReceiver.setImageCoords(inset, inset, getMeasuredWidth() - inset * 2f, getMeasuredHeight() - inset * 2f);
+                    animateFromImageReceiver.setImageCoords(inset, inset, getMeasuredWidth() - inset * 2f, getMeasuredHeight() - inset * 2f - getPaddingBottom());
                     animateFromImageReceiver.setAlpha(fromAlpha);
                     animateFromImageReceiver.draw(canvas);
                     animateFromImageReceiver.setImageCoords(wasImageX, wasImageY, wasImageW, wasImageH);
@@ -930,7 +930,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 }
             }
             if (imageReceiver != null && alpha > 0 && (foregroundAlpha < 1f || !drawForeground)) {
-                imageReceiver.setImageCoords(inset, inset, getMeasuredWidth() - inset * 2f, getMeasuredHeight() - inset * 2f);
+                imageReceiver.setImageCoords(inset, inset, getMeasuredWidth() - inset * 2f, getMeasuredHeight() - inset * 2f - getPaddingBottom());
                 final float wasAlpha = imageReceiver.getAlpha();
                 imageReceiver.setAlpha(wasAlpha * alpha);
                 if (drawAvatar) {
@@ -940,7 +940,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             }
             if (foregroundAlpha > 0f && drawForeground && alpha > 0) {
                 if (foregroundImageReceiver.getDrawable() != null) {
-                    foregroundImageReceiver.setImageCoords(inset, inset, getMeasuredWidth() - inset * 2f, getMeasuredHeight() - inset * 2f);
+                    foregroundImageReceiver.setImageCoords(inset, inset, getMeasuredWidth() - inset * 2f, getMeasuredHeight() - inset * 2f - getPaddingBottom());
                     foregroundImageReceiver.setAlpha(alpha * foregroundAlpha);
                     foregroundImageReceiver.draw(canvas);
                 } else {
@@ -951,6 +951,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 }
             }
             canvas.restore();
+
         }
 
         @Override
