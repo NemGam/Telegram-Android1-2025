@@ -1111,9 +1111,10 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         @Override
         protected void onDraw(Canvas canvas) {
             final int height = getActionBarHeight();
-            final float v = extraHeight + height + searchTransitionOffset;
+//            final float v = extraHeight + height + searchTransitionOffset;
+            final float v = getActionBarHeight() + extraHeight - actionButtonsContainer.getBottom() + actionButtonsContainer.getMeasuredHeight();
 
-            int y1 = (int) (v * (1.0f - mediaHeaderAnimationProgress));
+            int y1 = (int) (v * (1 - mediaHeaderAnimationProgress));
 
             if (y1 != 0) {
                 if (previousTransitionFragment != null && previousTransitionFragment.getContentView() != null) {
@@ -4581,7 +4582,9 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         avatarImage.setRoundRadius(getSmallAvatarRoundRadius());
         avatarImage.setPivotY(0);
         avatarImage.setPivotX(AndroidUtilities.dp(avatarDefaultScale / 2));
-        avatarContainer.addView(avatarImage, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
+        avatarContainer.setClipChildren(false);
+        avatarContainer.setClipToPadding(false);
+        avatarContainer.addView(avatarImage, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, Gravity.TOP));
         avatarImage.setOnClickListener(v -> {
             if (avatarBig != null) {
                 return;
@@ -4753,7 +4756,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 nameTextViews[a].setTextColor(getThemedColor(Theme.key_actionBarDefaultTitle));
             }
             nameTextViews[a].setPadding(0, AndroidUtilities.dp(6), 0, AndroidUtilities.dp(a == 0 ? 12 : 0));
-            nameTextViews[a].setTextSize(20);
+            nameTextViews[a].setTextSize(a == 0? 18 : 20);
             nameTextViews[a].setGravity(Gravity.LEFT);
             nameTextViews[a].setTypeface(AndroidUtilities.bold());
             nameTextViews[a].setLeftDrawableTopPadding(-AndroidUtilities.dp(1.3f));
@@ -4767,7 +4770,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             nameTextViews[a].setFocusable(a == 0);
             nameTextViews[a].setEllipsizeByGradient(true);
             nameTextViews[a].setRightDrawableOutside(a == 0);
-            avatarContainer2.addView(nameTextViews[a], LayoutHelper.createFrame(a == 0 ? initialTitleWidth : LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.LEFT | Gravity.TOP, 60, -6, (a == 0 ? rightMargin - (hasTitleExpanded ? 10 : 0) : 0), 0));
+            avatarContainer2.addView(nameTextViews[a], LayoutHelper.createFrame(a == 0 ? initialTitleWidth : LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.LEFT | Gravity.TOP, 0, -6, (a == 0 ? rightMargin - (hasTitleExpanded ? 10 : 0) : 0), 0));
         }
         for (int a = 0; a < onlineTextViews.length; a++) {
             if (a == 1) {
@@ -4841,7 +4844,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             }
         };
         mediaCounterTextView.setAlpha(0.0f);
-        avatarContainer2.addView(mediaCounterTextView, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.LEFT | Gravity.TOP, 118.33f, -2, 8, 0));
+        avatarContainer2.addView(mediaCounterTextView, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.LEFT | Gravity.TOP, 0f, -2, 8, 0));
         storyView = new ProfileStoriesView(context, currentAccount, getDialogId(), isTopic, avatarContainer, avatarImage, resourcesProvider) {
             @Override
             protected void onTap(StoryViewer.PlaceProvider provider) {
@@ -4883,6 +4886,8 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 cellCameraDrawable = new RLottieDrawable(R.raw.camera_outline, R.raw.camera_outline + "_cell", AndroidUtilities.dp(42), AndroidUtilities.dp(42), false, null);
             }
         }
+
+        needLayout(false);
 
         listView.setOnScrollListener(new RecyclerView.OnScrollListener() {
 
@@ -5384,6 +5389,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     Integer offset = positionToOffset.get(holder.getAdapterPosition());
                     if (offset != null) {
                         listView.smoothScrollBy(0, -(offset + (listView.getPaddingTop() - child.getTop() - actionBar.getMeasuredHeight())), CubicBezierInterpolator.EASE_OUT_QUINT);
+//                        listView.smoothScrollBy(0, (offset + (listView.getPaddingTop() - child.getTop() - listView.getMeasuredWidth())), CubicBezierInterpolator.EASE_OUT_QUINT);
                         return true;
                     }
                 }
@@ -5396,6 +5402,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         final int newTop = getActionBarHeight();
         final float value = currentExpandAnimatorValue = AndroidUtilities.lerp(expandAnimatorValues, currentExpandAnimatorFracture = animatedFracture);
         checkPhotoDescriptionAlpha();
+//        avatarScale = AndroidUtilities.lerp(1.15f, (listView.getPaddingTop() - topView.getTop() - actionBar.getMeasuredHeight()) / avatarDefaultScale * 0.5f, value);
         avatarContainer.setScaleX(avatarScale);
         avatarContainer.setScaleY(avatarScale);
 //        avatarContainer.setTranslationX(AndroidUtilities.lerp(avatarX, 0f, value));
@@ -5471,10 +5478,10 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             statusColor = getThemedColor(Theme.key_avatar_subtitleInProfileBlue);
         }
         onlineTextViews[1].setTextColor(ColorUtils.blendARGB(applyPeerColor(statusColor, true, online), 0xB3FFFFFF, value));
-        if (extraHeight > extraHeightThreshold) {
-//            nameTextViews[1].setPivotY(AndroidUtilities.lerp(0, nameTextViews[1].getMeasuredHeight(), value));
-            nameTextViews[1].setScaleX(AndroidUtilities.lerp(1.12f, 1.67f, value));
-            nameTextViews[1].setScaleY(AndroidUtilities.lerp(1.12f, 1.67f, value));
+        if (extraHeight >= extraHeightThreshold) {
+            nameTextViews[1].setPivotY(AndroidUtilities.lerp(0, nameTextViews[1].getMeasuredHeight(), eased));
+            nameTextViews[1].setScaleX(AndroidUtilities.lerp(1.12f, 1.67f, eased));
+            nameTextViews[1].setScaleY(AndroidUtilities.lerp(1.12f, 1.67f, eased));
         }
         if (showStatusButton != null) {
             showStatusButton.setBackgroundColor(ColorUtils.blendARGB(Theme.multAlpha(Theme.adaptHSV(actionBarBackgroundColor, +0.18f, -0.1f), 0.5f), 0x23ffffff, currentExpandAnimatorValue));
@@ -8412,6 +8419,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                         avatarsViewPager.setVisibility(View.VISIBLE);
                     }
                     transitionOnlineText = null;
+                    avatarContainer.setTranslationX(0);
                     avatarContainer2.invalidate();
                     profileTransitionInProgress = false;
                     previousTransitionFragment = null;
@@ -9902,6 +9910,8 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         }
 
         AndroidUtilities.runOnUIThread(this::updateEmojiStatusEffectPosition);
+        needLayoutText(1);
+        needLayout(false);
     }
 
     private void updatedPeerColor() {
@@ -10465,6 +10475,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     if (ChatObject.canManageTopic(currentAccount, chat, topicId)) {
                         editItemVisible = true;
                     }
+                    actionButtons.add(new ActionButton(context, LocaleController.getString(R.string.Message), R.drawable.profile_message, 100, v -> openTopic()));
                 } else {
                     if (ChatObject.hasAdminRights(chat) || chat.megagroup && ChatObject.canChangeChatInfo(chat)) {
                         editItemVisible = true;
@@ -10473,7 +10484,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 if (chat.left){
                     long requestedTime = MessagesController.getNotificationsSettings(currentAccount).getLong("dialog_join_requested_time_" + dialogId, -1);
                     if (!chat.kicked && !(requestedTime > 0 && System.currentTimeMillis() - requestedTime < 1000 * 60 * 2)){
-                        actionButtons.add(new ActionButton(context, LocaleController.getString(R.string.JoinGroupTitle), R.drawable.profile_join, 96, null));
+                        actionButtons.add(new ActionButton(context, LocaleController.getString(R.string.JoinGroupTitle), R.drawable.profile_join, 96, v -> handleJoinButtonPressed(context)));
                     }
                     actionButtons.add(new ActionButton(context, LocaleController.getString(R.string.ReportChat), R.drawable.profile_report, 1, v -> handleReportButtonPressed()));
                 }
