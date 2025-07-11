@@ -6983,30 +6983,6 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
 
             listView.setOverScrollMode(extraHeight > extraHeightThreshold && extraHeight < listView.getMeasuredWidth() - newTop ? View.OVER_SCROLL_NEVER : View.OVER_SCROLL_ALWAYS);
 
-//            if (writeButton != null) {
-//                writeButton.setTranslationY(actionBarHeight + ActionBar.getCurrentActionBarHeight() + extraHeight + searchTransitionOffset - AndroidUtilities.dp(29.5f));
-//
-//                if (!openAnimationInProgress) {
-//                    boolean currentVisible = writeButton.getTag() == null;
-//                    if (writeButtonVisible != currentVisible) {
-//                        if (writeButtonVisible) {
-//                            writeButton.setTag(null);
-//                        } else {
-//                            writeButton.setTag(0);
-//                        }
-//                        if (writeButtonAnimation != null) {
-//                            AnimatorSet old = writeButtonAnimation;
-//                            writeButtonAnimation = null;
-//                            old.cancel();
-//                        }
-//                    }
-//                }
-//
-//
-//            }
-
-//            avatarY = actionBarHeight + ActionBar.getCurrentActionBarHeight() / 2.0f * (1.0f + diff) - 21 * AndroidUtilities.density + 27 * AndroidUtilities.density * diff + actionBar.getTranslationY();
-
             if (storyView != null) {
                 storyView.setExpandCoords(avatarContainer2.getMeasuredWidth() - AndroidUtilities.dp(40), true, actionBarHeight + ActionBar.getCurrentActionBarHeight() + extraHeight + searchTransitionOffset);
             }
